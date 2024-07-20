@@ -1,0 +1,86 @@
+{% extends '_layouts/cp.twig' %}
+{% import '_includes/forms' as forms %}
+
+{% do view.registerAssetBundle('craft\\web\\assets\\admintable\\AdminTableAsset') %}
+{% do view.registerAssetBundle("matthewdejager\\craftmultie\\assetbundles\\cpsectionassetbundle\\CpSectionAssetBundle") %}
+
+{% set crumbs = [
+    { label: 'Multie'|t('plugin-handle'), url: url('multie') },
+    { label: 'Sites'|t('plugin-handle'), url: url('multie') },
+] %}
+
+{% set tabs = {
+    content: { label: 'Sections', url: '#content' },
+    settings: { label: 'Settings'|t('plugin-handle'), url: '#settings' },
+} %}
+
+{% set showHeader = true %}
+{% set fullPageForm = true %}
+{% set selectedSubnavItem = 'sites' %}
+{% set sites = craft.app.getSites().getAllSites() %}
+{% set title = "Multie Site Manager" %}
+{% set sections = craft.app.sections.getAllSections() %}
+
+{% set contextMenu %}
+    {% if craft.app.getIsMultiSite() %}
+        <h1> Context Menu</h1>
+        {% include '_elements/sitemenu' %}
+    {% endif %}
+{% endset %}
+
+{% block actionButton %}
+
+{% endblock %}
+
+{% block content %}
+    <div id="sections-vue-admin-table"></div>
+{% endblock %}
+
+{% js %}
+
+// When changing the site select, navigate to the sections index for that site.
+var $siteMenuBtn = $("#header .sitemenubtn:first");
+
+if ($siteMenuBtn.length) {
+    var siteMenu = $siteMenuBtn.menubtn().data("menubtn").menu;
+
+    siteMenu.on("optionselect", function(ev) {
+        siteMenu.$options.removeClass("sel");
+        var $option = $(ev.selectedOption).addClass("sel");
+        $siteMenuBtn.html($option.html());
+        Craft.cp.setSiteId($option.data("site-id"));
+
+        location.reload();
+    });
+}
+
+var columns = [
+    {
+        name: "__slot:title",
+        title: Craft.t("app", "Name"),
+        callback: function(value) {
+            return '<h1>TEST 123</h1>';
+        }
+    },
+    { name: "entry_uri_format", title: Craft.t("multie", "Entry URI Format") },
+    { name: "template", title: Craft.t("multie", "Template") },
+];
+
+var actions = {{ actions | json_encode | raw }};
+
+new Craft.VueAdminTable({
+
+    actions: actions,
+    columns: columns,
+    container: "#sections-vue-admin-table",
+    emptyMessage: Craft.t("plugin-handle", "No sections exist yet."),
+    reorderAction: "",
+    tableData: {{ tableData | json_encode | raw }},
+        allowMultipleSelections: true,
+        checkboxes: true
+
+    });
+
+
+{% endjs %}
+

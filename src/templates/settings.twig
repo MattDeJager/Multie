@@ -1,0 +1,42 @@
+{% do view.registerAssetBundle("matthewdejager\\craftmultie\\assetbundles\\cpsectionassetbundle\\CpSectionAssetBundle") %}
+{% set crumbs = [
+    {
+        label: 'Multie'|t('plugin-handle'),
+        url: url('multie'),
+    },
+    {
+        label: 'Settings',
+        url: url('multie/settings'),
+    },
+] %}
+
+{% extends "_layouts/cp.twig" %}
+{# Set Title #}
+{% set title = "Custom CP Section" %}
+
+{% set selectedSubnavItem = 'settings' %}
+
+{% block header %}
+{% endblock %}
+
+{% block sidebar %}
+    Sites
+{% endblock %}
+
+{% block content %}
+    <h2>Select a subscriber</h2>
+    <p>
+        Select the subscriber to send an email to.
+    </p>
+
+    {% for entry in craft.entries.section("subscribers") %}
+        <div class="emailBlock">
+            <input
+                class="emailCheckbox"
+                type="checkbox"
+                name="{{ entry.id }}"
+                value=""/>
+            <h3>{{ entry.title }}</h3>
+        </div>
+    {% endfor %}
+{% endblock %}

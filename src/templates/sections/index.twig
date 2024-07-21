@@ -14,10 +14,10 @@
 
 {% set showHeader = true %}
 {% set fullPageForm = true %}
-{% set selectedSubnavItem = 'sites' %}
+{% set selectedSubnavItem = 'sections' %}
 {% set sites = craft.app.getSites().getAllSites() %}
 {% set title = "Multie Site Manager" %}
-{% set sections = craft.app.sections.getAllSections() %}
+
 
 {% set contextMenu %}
     {% if craft.app.getIsMultiSite() %}

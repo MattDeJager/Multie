@@ -1,43 +1,79 @@
 {% extends "multie/_layouts/index.twig" %}
 
-{% do view.registerAssetBundle("matthewdejager\\craftmultie\\assetbundles\\cpsectionassetbundle\\CpSectionAssetBundle") %}
+{% import '_includes/forms' as forms %}
+
 {% set crumbs = [
-    {
-        label: 'Multie'|t('plugin-handle'),
-        url: url('multie'),
-    },
-    {
-        label: 'Settings',
-        url: url('multie/settings'),
-    },
+    { label: 'Multie'|t('plugin-handle'), url: url('multie') },
+    { label: 'Fields'|t('plugin-handle'), url: url('multie') },
 ] %}
 
-{# Set Title #}
-{% set title = "Custom CP Section" %}
+{% set showHeader = true %}
+{% set fullPageForm = true %}
+{% set selectedSubnavItem = 'fields' %}
+{% set sites = craft.app.getSites().getAllSites() %}
+{% set title = "Multie Site Manager" %}
 
-{% set selectedSubnavItem = 'settings' %}
 
-{% block header %}
-{% endblock %}
+{% set contextMenu %}
+    {% if craft.app.getIsMultiSite() %}
+        <h1> Context Menu</h1>
+        {% include '_elements/sitemenu' %}
+    {% endif %}
+{% endset %}
 
-{% block sidebar %}
-    Sites
+{% block actionButton %}
+
 {% endblock %}
 
 {% block content %}
-    <h2>Select a subscriber</h2>
-    <p>
-        Select the subscriber to send an email to.
-    </p>
-
-    {% for entry in craft.entries.section("subscribers") %}
-        <div class="emailBlock">
-            <input
-                class="emailCheckbox"
-                type="checkbox"
-                name="{{ entry.id }}"
-                value=""/>
-            <h3>{{ entry.title }}</h3>
-        </div>
-    {% endfor %}
+    <div id="sections-vue-admin-table"></div>
 {% endblock %}
+
+{% js %}
+
+// When changing the site select, navigate to the sections index for that site.
+var $siteMenuBtn = $("#header .sitemenubtn:first");
+
+if ($siteMenuBtn.length) {
+    var siteMenu = $siteMenuBtn.menubtn().data("menubtn").menu;
+
+    siteMenu.on("optionselect", function(ev) {
+        siteMenu.$options.removeClass("sel");
+        var $option = $(ev.selectedOption).addClass("sel");
+        $siteMenuBtn.html($option.html());
+        Craft.cp.setSiteId($option.data("site-id"));
+
+        location.reload();
+    });
+}
+
+var columns = [
+    {
+        name: "__slot:title",
+        title: Craft.t("app", "Name"),
+        callback: function(value) {
+            return '<h1>TEST 123</h1>';
+        }
+    },
+    { name: "entry_uri_format", title: Craft.t("multie", "Entry URI Format") },
+    { name: "template", title: Craft.t("multie", "Template") },
+];
+
+var actions = {{ actions | json_encode | raw }};
+
+new Craft.VueAdminTable({
+
+    actions: actions,
+    columns: columns,
+    container: "#sections-vue-admin-table",
+    emptyMessage: Craft.t("plugin-handle", "No sections exist yet."),
+    reorderAction: "",
+    tableData: {{ tableData | json_encode | raw }},
+        allowMultipleSelections: true,
+        checkboxes: true
+
+    });
+
+
+{% endjs %}
+

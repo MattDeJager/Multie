@@ -82,7 +82,7 @@ class FieldsController extends Controller
 //
 //        ];
 
-        return $this->renderTemplate('multie/sections/index.twig', [
+        return $this->renderTemplate('multie/fields/index.twig', [
             "tableData" => $tableData,
             'actions' => $actions,
         ]);

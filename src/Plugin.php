@@ -142,11 +142,11 @@ class Plugin extends BasePlugin
                     'label' => 'Multie',
                     'icon' => 'multie/icon.svg',
                     'subnav' => [
-                        'sites' => [
+                        'sections' => [
                             'label' => 'Sections',
                             'url' => 'multie/sections',
                         ],
-                        'settings' => [
+                        'fields' => [
                             'label' => 'Fields',
                             'url' => 'multie/fields',
                         ],

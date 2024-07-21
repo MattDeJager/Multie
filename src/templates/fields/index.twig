@@ -13,67 +13,89 @@
 {% set sites = craft.app.getSites().getAllSites() %}
 {% set title = "Multie Site Manager" %}
 
+{% set formActions = [
+    {
+        label: 'Save and continue editing'|t('app'),
+        redirect: 'settings/fields/edit/{id}'|hash,
+        shortcut: true,
+        retainScroll: true,
+    },
+    {
+        label: 'Save and add another'|t('app'),
+        shortcut: true,
+        shift: true,
+        params: {addAnother: 1},
+    },
+    fieldId ?? false ? {
+        label: 'Delete'|t('app'),
+        action: 'fields/delete-field',
+        redirect: 'settings/fields'|hash,
+        destructive: true,
+        confirm: 'Are you sure you want to delete “{name}”?'|t('app', {
+            name: field.name,
+        }),
+    },
+]|filter %}
 
-{% set contextMenu %}
-    {% if craft.app.getIsMultiSite() %}
-        <h1> Context Menu</h1>
-        {% include '_elements/sitemenu' %}
-    {% endif %}
-{% endset %}
+
 
 {% block actionButton %}
 
+
+{% endblock %}
+
+{% block sidebar %}
+    <ul>
+        <li><a href="#">Simple fields</a></li>
+        <li><a href="#">Base Relation Fields</a></li>
+        <li><a href="#">Matrix Fields</a></li>
+    </ul>
 {% endblock %}
 
 {% block content %}
-    <div id="sections-vue-admin-table"></div>
+    {{ actionInput('fields/save-field') }}
+    {{ redirectInput('settings/fields/{groupId}') }}
+    {% if craft.app.getIsMultiSite() %}
+        {% set translationMethods = field.supportedTranslationMethods %}
+        {% if translationMethods|length > 1 %}
+            <div id="translation-settings">
+                {{ forms.selectField({
+                    label: "Translation Method"|t('app'),
+                    instructions: "How should this field’s values be translated?"|t('app'),
+                    id: 'translation-method',
+                    name: 'translationMethod',
+                    options: [
+                        'none' in translationMethods ? { value: 'none', label: "Not translatable"|t('app') },
+                        'site' in translationMethods ? { value: 'site', label: "Translate for each site"|t('app') },
+                        'siteGroup' in translationMethods ? { value: 'siteGroup', label: "Translate for each site group"|t('app') },
+                        'language' in translationMethods ? { value: 'language', label: "Translate for each language"|t('app') },
+                        'custom' in translationMethods ? { value: 'custom', label: "Custom…"|t('app') }
+                    ]|filter,
+                    value: field.translationMethod,
+                    toggle: true,
+                    targetPrefix: 'translation-method-'
+                }) }}
+
+                {% if 'custom' in translationMethods %}
+                    {% tag 'div' with {
+                        id: 'translation-method-custom',
+                        class: field.translationMethod != 'custom' ? 'hidden' : null,
+                    } %}
+                        {{ forms.textField({
+                            label: "Translation Key Format"|t('app'),
+                            instructions: "Template that defines the field’s custom “translation key” format. Field values will be copied to all sites that produce the same key. For example, to make the field translatable based on the first two characters of the site handle, you could enter `{site.handle[:2]}`.",
+                            id: 'translation-key-format',
+                            class: 'code',
+                            name: 'translationKeyFormat',
+                            value: field.translationKeyFormat,
+                            errors: field.getErrors('translationKeyFormat')
+                        }) }}
+                    {% endtag %}
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endif %}
 {% endblock %}
 
-{% js %}
 
-// When changing the site select, navigate to the sections index for that site.
-var $siteMenuBtn = $("#header .sitemenubtn:first");
-
-if ($siteMenuBtn.length) {
-    var siteMenu = $siteMenuBtn.menubtn().data("menubtn").menu;
-
-    siteMenu.on("optionselect", function(ev) {
-        siteMenu.$options.removeClass("sel");
-        var $option = $(ev.selectedOption).addClass("sel");
-        $siteMenuBtn.html($option.html());
-        Craft.cp.setSiteId($option.data("site-id"));
-
-        location.reload();
-    });
-}
-
-var columns = [
-    {
-        name: "__slot:title",
-        title: Craft.t("app", "Name"),
-        callback: function(value) {
-            return '<h1>TEST 123</h1>';
-        }
-    },
-    { name: "entry_uri_format", title: Craft.t("multie", "Entry URI Format") },
-    { name: "template", title: Craft.t("multie", "Template") },
-];
-
-var actions = {{ actions | json_encode | raw }};
-
-new Craft.VueAdminTable({
-
-    actions: actions,
-    columns: columns,
-    container: "#sections-vue-admin-table",
-    emptyMessage: Craft.t("plugin-handle", "No sections exist yet."),
-    reorderAction: "",
-    tableData: {{ tableData | json_encode | raw }},
-        allowMultipleSelections: true,
-        checkboxes: true
-
-    });
-
-
-{% endjs %}
 

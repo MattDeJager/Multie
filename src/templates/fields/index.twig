@@ -1,3 +1,5 @@
+{% extends "multie/_layouts/index.twig" %}
+
 {% do view.registerAssetBundle("matthewdejager\\craftmultie\\assetbundles\\cpsectionassetbundle\\CpSectionAssetBundle") %}
 {% set crumbs = [
     {
@@ -10,7 +12,6 @@
     },
 ] %}
 
-{% extends "_layouts/cp.twig" %}
 {# Set Title #}
 {% set title = "Custom CP Section" %}
 

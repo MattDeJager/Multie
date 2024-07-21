@@ -1,8 +1,6 @@
-{% extends '_layouts/cp.twig' %}
-{% import '_includes/forms' as forms %}
+{% extends "multie/_layouts/index.twig" %}
 
-{% do view.registerAssetBundle('craft\\web\\assets\\admintable\\AdminTableAsset') %}
-{% do view.registerAssetBundle("matthewdejager\\craftmultie\\assetbundles\\cpsectionassetbundle\\CpSectionAssetBundle") %}
+{% import '_includes/forms' as forms %}
 
 {% set crumbs = [
     { label: 'Multie'|t('plugin-handle'), url: url('multie') },

@@ -161,7 +161,8 @@ class Plugin extends BasePlugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['multie/sections'] = 'multie/site/index';
+                $event->rules['multie/sections'] = 'multie/sections/index';
+                $event->rules['multie/fields'] = 'multie/fields/index';
             }
         );
 

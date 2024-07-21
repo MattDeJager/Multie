@@ -7,6 +7,8 @@
     { label: 'Fields'|t('plugin-handle'), url: url('multie') },
 ] %}
 
+{% set fullPageForm = true %}
+
 {% set showHeader = true %}
 {% set fullPageForm = true %}
 {% set selectedSubnavItem = 'fields' %}
@@ -44,17 +46,9 @@
 
 {% endblock %}
 
-{% block sidebar %}
-    <ul>
-        <li><a href="#">Simple fields</a></li>
-        <li><a href="#">Base Relation Fields</a></li>
-        <li><a href="#">Matrix Fields</a></li>
-    </ul>
-{% endblock %}
-
 {% block content %}
     {{ actionInput('fields/save-field') }}
-    {{ redirectInput('settings/fields/{groupId}') }}
+    {#    {{ redirectInput('settings/fields/{groupId}') }} #}
     {% if craft.app.getIsMultiSite() %}
         {% set translationMethods = field.supportedTranslationMethods %}
         {% if translationMethods|length > 1 %}
@@ -94,8 +88,53 @@
                 {% endif %}
             </div>
         {% endif %}
+
+        {{ forms.selectField({
+            label: 'Propagation Method'|t('app'),
+            instructions: 'Which sites should blocks be saved to?'|t('app'),
+            id: 'propagationMethod',
+            name: 'propagationMethod',
+            options: [
+                { value: 'none', label: 'Only save blocks to the site they were created in'|t('app') },
+                { value: 'siteGroup', label: 'Save blocks to other sites in the same site group'|t('app') },
+                { value: 'language', label: 'Save blocks to other sites with the same language'|t('app') },
+                { value: 'all', label: 'Save blocks to all sites the owner element is saved in'|t('app') },
+                { value: 'custom', label: 'Custom…'|t('app') },
+            ],
+
+            toggle: true,
+            targetPrefix: 'propagation-method-',
+        }) }}
+
+        {{ forms.checkboxField({
+            label: 'Manage relations on a per-site basis'|t('app'),
+            id: 'localize-relations',
+            name: 'localizeRelations',
+            checked: false
+        }) }}
+
+        {{ forms.submitButton([]) }}
+
+
     {% endif %}
 {% endblock %}
+
+{#        {% tag 'div' with { #}
+{#            id: 'propagation-method-custom', #}
+{#            class: matrixField.propagationMethod != 'custom' ? 'hidden' : null, #}
+{#        } %} #}
+{#            {{ forms.textField({ #}
+{#                label: 'Propagation Key Format'|t('app'), #}
+{#                instructions: 'Template that defines the field’s custom “propagation key” format. Blocks will be saved to all sites that produce the same key.'|t('app'), #}
+{#                id: 'propagation-key-format', #}
+{#                class: 'code', #}
+{#                name: 'propagationKeyFormat', #}
+{#                value: matrixField.propagationKeyFormat, #}
+{#                errors: matrixField.getErrors('propagationKeyFormat'), #}
+{#            }) }} #}
+{#        {% endtag %} #}
+
+
 
 
 

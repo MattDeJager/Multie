@@ -138,17 +138,17 @@ class Plugin extends BasePlugin
             Cp::EVENT_REGISTER_CP_NAV_ITEMS,
             function(RegisterCpNavItemsEvent $event) {
                 $event->navItems[] = [
-                    'url' => 'multie',
+                    'url' => 'multie/sections',
                     'label' => 'Multie',
                     'icon' => 'multie/icon.svg',
                     'subnav' => [
                         'sites' => [
-                            'label' => 'Sites',
-                            'url' => 'multie',
+                            'label' => 'Sections',
+                            'url' => 'multie/sections',
                         ],
                         'settings' => [
-                            'label' => 'Settings',
-                            'url' => 'multie/settings',
+                            'label' => 'Fields',
+                            'url' => 'multie/fields',
                         ],
                     ],
                 ];
@@ -161,7 +161,7 @@ class Plugin extends BasePlugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['multie'] = 'multie/site/index';
+                $event->rules['multie/sections'] = 'multie/site/index';
             }
         );
 

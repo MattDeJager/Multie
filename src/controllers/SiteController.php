@@ -78,7 +78,7 @@ class SiteController extends Controller
 
         ];
 
-        return $this->renderTemplate('multie/index.twig', [
+        return $this->renderTemplate('multie/sections/index.twig', [
             "tableData" => $tableData,
             'actions' => $actions,
         ]);

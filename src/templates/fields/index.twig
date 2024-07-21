@@ -47,7 +47,7 @@
 {% endblock %}
 
 {% block content %}
-    {{ actionInput('fields/save-field') }}
+    {{ actionInput('multie/fields/update-all') }}
     {#    {{ redirectInput('settings/fields/{groupId}') }} #}
     {% if craft.app.getIsMultiSite() %}
         {% set translationMethods = field.supportedTranslationMethods %}

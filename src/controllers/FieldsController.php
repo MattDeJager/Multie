@@ -21,4 +21,20 @@ class FieldsController extends Controller
         return $this->renderTemplate('multie/fields/index.twig', ["field" => $field]);
     }
 
+    public function actionUpdateAll(): \yii\web\Response
+    {
+
+        dd("Updating all fields");
+
+        $this->requireAdmin();
+
+        $field = Craft::$app->fields->getFieldById(1);
+
+
+        return $this->renderTemplate('multie/fields/index.twig', ["field" => $field]);
+    }
+
+
+
+
 }

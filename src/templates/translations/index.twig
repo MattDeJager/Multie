@@ -1,0 +1,28 @@
+{% extends "multie/_layouts/index.twig" %}
+
+{% import '_includes/forms' as forms %}
+
+{% set crumbs = [
+    { label: 'Multie'|t('plugin-handle'), url: url('multie') },
+    { label: 'Sites'|t('plugin-handle'), url: url('multie') },
+] %}
+
+{% set showHeader = true %}
+{% set fullPageForm = true %}
+{% set selectedSubnavItem = 'translations' %}
+{% set title = "Multie Site Manager" %}
+
+
+{% set contextMenu %}
+    {% if craft.app.getIsMultiSite() %}
+        {% include '_elements/sitemenu' %}
+    {% endif %}
+{% endset %}
+
+{% block actionButton %}
+
+{% endblock %}
+
+{% block content %}
+    <h1>Translations Page</h1>
+{% endblock %}

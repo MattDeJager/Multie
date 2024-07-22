@@ -150,6 +150,10 @@ class Plugin extends BasePlugin
                             'label' => 'Fields',
                             'url' => 'multie/fields',
                         ],
+                        'translations' => [
+                            'label' => 'Translations',
+                            'url' => 'multie/translations',
+                        ],
                     ],
                 ];
             }
@@ -163,6 +167,7 @@ class Plugin extends BasePlugin
             function (RegisterUrlRulesEvent $event) {
                 $event->rules['multie/sections'] = 'multie/sections/index';
                 $event->rules['multie/fields'] = 'multie/fields/index';
+                $event->rules['multie/translations'] = 'multie/translations/index';
             }
         );
 

@@ -13,11 +13,11 @@ use yii\base\Component;
 class FieldsService
 {
 
-    public function translateFields($fields): void
+    public function translateFields($fields, $config = []): void
     {
         foreach ($fields as $field) {
             try {
-                $this->configureField($field);
+                $this->configureField($field, $config);
             } catch (\Throwable $e) {
 
             }
@@ -31,15 +31,15 @@ class FieldsService
      * @return void
      * @throws \Throwable
      */
-    public function configureField(FieldInterface $field): ?bool
+    public function configureField(FieldInterface $field, $config = []): ?bool
     {
 
         if ($field instanceof Matrix) {
-            $this->configureMatrixField($field);
+            $this->configureMatrixField($field, $config);
         } else if ($field instanceof BaseRelationField) {
-            $this->configureBaseRelationField($field);
+            $this->configureBaseRelationField($field, $config);
         } else {
-            $this->configureSimpleField($field);
+            $this->configureSimpleField($field, $config);
         }
         try {
            return Craft::$app->fields->saveField($field);
@@ -48,20 +48,19 @@ class FieldsService
         }
     }
 
-    private function configureMatrixField(Matrix $field): void
+    private function configureMatrixField(Matrix $field, $config): void
     {
-        $field->propagationMethod = Matrix::PROPAGATION_METHOD_NONE;
+        $field->propagationMethod = $config['propagationMethod'];
     }
 
-    private function configureBaseRelationField(BaseRelationField $field): void
+    private function configureBaseRelationField(BaseRelationField $field, $config): void
     {
-        // localizeRelation
-        $field->localizeRelations = true;
+        $field->localizeRelations = $config['localizeRelations'];
     }
 
-    private function configureSimpleField(FieldInterface $field): void
+    private function configureSimpleField(FieldInterface $field, $config): void
     {
-        $field->translationMethod = Field::TRANSLATION_METHOD_SITE;
+        $field->translationMethod = $config['translationMethod'];
     }
 
 }

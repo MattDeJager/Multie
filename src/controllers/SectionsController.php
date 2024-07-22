@@ -95,7 +95,7 @@ class SectionsController extends Controller
 
         $sectionsService->updateSectionsStatusForSite($sectionIds, $status, $site);
 
-        return $this->redirect('multie');
+        return $this->redirect('multie/sections');
 
     }
 
@@ -113,7 +113,7 @@ class SectionsController extends Controller
 
         $sectionsService->copySettingsFromSite($sectionIds, $siteToCopy, $site);
 
-        return $this->redirect('multie');
+        return $this->redirect('multie/sections');
 
     }
 }

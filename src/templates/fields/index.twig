@@ -15,32 +15,6 @@
 {% set sites = craft.app.getSites().getAllSites() %}
 {% set title = "Multie Site Manager" %}
 
-{% set formActions = [
-    {
-        label: 'Save and continue editing'|t('app'),
-        redirect: 'settings/fields/edit/{id}'|hash,
-        shortcut: true,
-        retainScroll: true,
-    },
-    {
-        label: 'Save and add another'|t('app'),
-        shortcut: true,
-        shift: true,
-        params: {addAnother: 1},
-    },
-    fieldId ?? false ? {
-        label: 'Delete'|t('app'),
-        action: 'fields/delete-field',
-        redirect: 'settings/fields'|hash,
-        destructive: true,
-        confirm: 'Are you sure you want to delete “{name}”?'|t('app', {
-            name: field.name,
-        }),
-    },
-]|filter %}
-
-
-
 {% block actionButton %}
 
 

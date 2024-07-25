@@ -16,10 +16,28 @@ class FieldsController extends Controller
     {
         $this->requireAdmin();
 
+        $fieldGroups = [
+            [
+                "name" => "All Fields",
+            ],
+            [
+                "name" => "Simple Fields",
+            ],
+            [
+                "name" => "Base Relations Fields",
+            ],
+            [
+                "name" => "Matrix Fields",
+            ],
+        ];
+
         $field = Craft::$app->fields->getFieldById(1);
 
 
-        return $this->renderTemplate('multie/fields/index.twig', ["field" => $field]);
+        return $this->renderTemplate('multie/fields/index.twig', [
+            "field" => $field,
+            "fieldGroups" => $fieldGroups
+        ]);
     }
 
     public function actionUpdateAll(): \yii\web\Response

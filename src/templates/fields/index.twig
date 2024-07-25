@@ -131,7 +131,70 @@ TODO:
 
 
     {% endif %}
+
+    <div id="fields-vue-admin-table"></div>
 {% endblock %}
+
+{% js %}
+
+
+var columns = [
+    { name: '__slot:title', title: Craft.t('app', 'Name') },
+    {
+        name: 'searchable',
+        titleClass: 'thin',
+        callback: value => {
+            if (!value) {
+                return null;
+            }
+            return `<div class="badge-icon" data-icon="search" title="${Craft.t('app', 'This field’s values are used as search keywords.')}" aria-label="${Craft.t('app', 'This field’s values are used as search keywords.')}" role="img"></div>`;
+        }
+    },
+{% if craft.app.isMultiSite %}
+{
+    name: 'translatable',
+    titleClass: 'thin',
+    callback: value => {
+        if (!value) {
+            return null;
+        }
+        return `<div class="badge-icon" data-icon="language" title="${value}" aria-label="${value}" role="img"></div>`;
+    }
+},
+{% endif %}
+{ name: '__slot:handle', title: Craft.t('app', 'Handle') },
+{
+    name: 'type',
+    title: Craft.t('app', 'Type'),
+    callback: function(value) {
+        if (value.isMissing) {
+            return '<span class="error">' + value.label + '</span>'
+        }
+
+        return value.label
+    }
+},
+];
+
+var actions = {{ actions | json_encode | raw }};
+
+new Craft.VueAdminTable({
+
+actions: actions,
+columns: columns,
+container: "#fields-vue-admin-table",
+emptyMessage: Craft.t("plugin-handle", "No fields."),
+reorderAction: "",
+tableData: {{ tableData | json_encode | raw }},
+allowMultipleSelections: true,
+checkboxes: true
+
+});
+
+
+{% endjs %}
+
+
 
 {#        {% tag 'div' with { #}
 {#            id: 'propagation-method-custom', #}

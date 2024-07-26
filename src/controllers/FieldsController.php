@@ -14,6 +14,9 @@ class FieldsController extends Controller
 
     public function actionIndex(): \yii\web\Response
     {
+        // todo: Connect Fields in Table to Fields in Side Bar
+        // todo: Add dynamic actions for each field group
+        // todo: quick refactor of this function
         $this->requireAdmin();
 
         /** @var FieldsService $fieldService */

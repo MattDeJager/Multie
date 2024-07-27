@@ -71,7 +71,6 @@ class FieldGroupService
                 Date::class,
                 Dropdown::class,
                 Email::class,
-                EntriesField::class,
                 Lightswitch::class,
                 Money::class,
                 MultiSelect::class,

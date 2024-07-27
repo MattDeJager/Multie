@@ -140,7 +140,7 @@ class Plugin extends BasePlugin
                 $event->navItems[] = [
                     'url' => 'multie/sections',
                     'label' => 'Multie',
-                    'icon' => 'multie/icon.svg',
+                    'icon' => '@matthewdejager/craftmultie/icon-mask.svg',
                     'subnav' => [
                         'sections' => [
                             'label' => 'Sections',

@@ -167,6 +167,7 @@ class Plugin extends BasePlugin
             function (RegisterUrlRulesEvent $event) {
                 $event->rules['multie/sections'] = 'multie/sections/index';
                 $event->rules['multie/fields'] = 'multie/fields/index';
+                $event->rules['multie/fields/<fieldGroupId:\d*>'] = 'multie/fields/index';
                 $event->rules['multie/translations'] = 'multie/translations/index';
             }
         );

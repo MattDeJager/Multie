@@ -4,6 +4,7 @@ namespace matthewdejager\craftmultie\controllers;
 
 use Craft;
 use craft\helpers\UrlHelper;
+use craft\models\FieldGroup;
 use craft\web\Controller;
 use matthewdejager\craftmultie\Plugin;
 use matthewdejager\craftmultie\services\FieldsService;
@@ -12,8 +13,9 @@ use matthewdejager\craftmultie\services\SectionsService;
 class FieldsController extends Controller
 {
 
-    public function actionIndex(): \yii\web\Response
+    public function actionIndex(int $fieldGroupId = null): \yii\web\Response
     {
+
         // todo: Connect Fields in Table to Fields in Side Bar
         // todo: Add dynamic actions for each field group
         // todo: quick refactor of this function
@@ -25,15 +27,19 @@ class FieldsController extends Controller
         $fieldGroups = [
             [
                 "name" => "All Fields",
+                'id' => 1
             ],
             [
                 "name" => "Simple Fields",
+                'id' => 2
             ],
             [
                 "name" => "Base Relations Fields",
+                'id' => 3
             ],
             [
                 "name" => "Matrix Fields",
+                'id' => 4
             ],
         ];
 
@@ -73,7 +79,7 @@ class FieldsController extends Controller
 
         ];
 
-        $fields = $fieldService->getFieldsInGroup('All Fields');
+        $fields = $fieldService->getFieldsInGroup($fieldGroupId);
 
         $tableData = [];
 

@@ -13,10 +13,12 @@ use yii\base\Component;
 class FieldsService
 {
 
-    public function getFieldsInGroup(string $fieldGroup): array
+    public function getFieldsInGroup(?int $fieldGroupId): array
     {
         return Craft::$app->fields->getAllFields();
     }
+
+
 
     public function translateFields($fields, $config = []): void
     {

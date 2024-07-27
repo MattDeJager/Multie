@@ -5,12 +5,12 @@ namespace matthewdejager\craftmultie\controllers;
 use Craft;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
+use matthewdejager\craftmultie\helpers\VueAdminTableHelper;
 use matthewdejager\craftmultie\Plugin;
 use matthewdejager\craftmultie\services\SectionsService;
 
 class SectionsController extends Controller
 {
-
     public function actionIndex(): \yii\web\Response
     {
         $this->requireAdmin();
@@ -22,11 +22,9 @@ class SectionsController extends Controller
         $site = Craft::$app->sites->getSiteByHandle($siteHandle);
 
         $tableData = [];
-
         $sections = Craft::$app->sections->getAllSections();
 
         foreach ($sections as $section) {
-
             $sectionSiteSettings = $section->getSiteSettings()[$site->id] ?? null;
             $status = isset($sectionSiteSettings) ? 1 : 0;
 
@@ -45,36 +43,16 @@ class SectionsController extends Controller
             [
                 'label' => \Craft::t('app', 'Set Status'),
                 'actions' => [
-                    [
-                        'label' => \Craft::t('app', 'Enabled'),
-                        'action' => 'multie/sections/update-status',
-                        'param' => 'status',
-                        'value' => 'enabled',
-                        'status' => 'enabled',
-                    ],
-                    [
-                        'label' => \Craft::t('app', 'Disabled'),
-                        'action' => 'multie/sections/update-status',
-                        'param' => 'status',
-                        'value' => 'disabled',
-                        'status' => 'disabled',
-                    ],
+                    VueAdminTableHelper::getActionArray('Enabled', 'multie/sections/update-status', 'status', ['enabled'], 'enabled'),
+                    VueAdminTableHelper::getActionArray('Disabled', 'multie/sections/update-status', 'status', ['disabled'], 'disabled'),
                 ],
             ],
-
             [
-                "icon" => "settings",
+                'icon' => 'settings',
                 'actions' => [
-                    [
-                        'label' => \Craft::t('app', 'Copy settings from default site'),
-                        'action' => 'multie/sections/copy-settings',
-                        'param' => 'site',
-                        'value' => 'default',
-                        'icon' => 'settings',
-                    ]
+                    VueAdminTableHelper::getActionArray('Copy settings from default site', 'multie/sections/copy-settings', 'site', ['default'], 'settings'),
                 ],
             ],
-
         ];
 
         return $this->renderTemplate('multie/sections/index.twig', [
@@ -96,7 +74,6 @@ class SectionsController extends Controller
         $sectionsService->updateSectionsStatusForSite($sectionIds, $status, $site);
 
         return $this->redirect('multie/sections');
-
     }
 
     public function actionCopySettings(): \yii\web\Response
@@ -114,6 +91,5 @@ class SectionsController extends Controller
         $sectionsService->copySettingsFromSite($sectionIds, $siteToCopy, $site);
 
         return $this->redirect('multie/sections');
-
     }
 }

@@ -60,9 +60,13 @@ use yii\base\Component;
  */
 class FieldGroupService
 {
+    public const SIMPLE_FIELDS = 1;
+    public const BASE_RELATION_FIELDS = 2;
+    public const MATRIX_FIELDS = 3;
+
     private const FIELD_GROUP_CONFIG = [
         [
-            'id' => 1,
+            'id' => self::SIMPLE_FIELDS,
             'name' => 'Simple Fields',
             'fieldTypes' => [
                 Checkboxes::class,
@@ -85,14 +89,14 @@ class FieldGroupService
             ],
         ],
         [
-            'id' => 2,
+            'id' => self::BASE_RELATION_FIELDS,
             'name' => 'Base Relations Fields',
             'fieldTypes' => [
                 BaseRelationField::class,
             ],
         ],
         [
-            'id' => 3,
+            'id' => self::MATRIX_FIELDS,
             'name' => 'Matrix Fields',
             'fieldTypes' => [
                 MatrixField::class,

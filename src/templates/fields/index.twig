@@ -27,9 +27,14 @@
 {% block sidebar %}
     <nav>
         <ul id="groups">
+            <li>
+                <a href="{{ url('multie/fields') }}" data-id="0">
+                    {{ "All Fields "|t('site') }}
+                </a>
+            </li>
             {% for group in fieldGroups %}
                 <li>
-                    <a href="{{ url('settings/fields/'~ group.name) }}" data-id="{{ group.name }}">
+                    <a href="{{ url('multie/fields/'~ group.id) }}" data-id="{{ group.id }}">
                         {{ group.name|t('site') }}
                     </a>
                 </li>

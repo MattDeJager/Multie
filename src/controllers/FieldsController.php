@@ -61,28 +61,13 @@ class FieldsController extends Controller
 
         $fieldService->updateFields($fieldIds, $fieldConfig);
 
-        return $this->redirect('multie/fields');
+        // Get the referrer URL
+        $referrer = Craft::$app->request->referrer;
+
+        // Redirect to the referrer URL if it exists, otherwise redirect to a default URL
+        return $this->redirect($referrer ?: 'multie/fields');
     }
 
-    public function actionUpdateAll(): \yii\web\Response
-    {
-        $this->requireAdmin();
-
-        /** @var FieldsService $fieldService */
-        $fieldService = Plugin::getInstance()->field;
-
-        $config = [
-            'translationMethod' => Craft::$app->request->getBodyParam('translationMethod'),
-            'propagationMethod' => Craft::$app->request->getBodyParam('propagationMethod'),
-            'localizeRelations' => Craft::$app->request->getBodyParam('localizeRelations'),
-        ];
-
-        $fieldService->translateFields(Craft::$app->fields->getAllFields(), $config);
-
-        return $this->renderTemplate('multie/fields/index.twig', [
-            "field" => Craft::$app->fields->getFieldById(1),
-        ]);
-    }
 
     private function getTableActions(): array
     {
@@ -111,8 +96,8 @@ class FieldsController extends Controller
             [
                 'label' => \Craft::t('app', 'Manage relations on a per-site basis'),
                 'actions' => [
-                    VueAdminTableHelper::getActionArray('Enable', 'multie/fields/update', 'fields', [['handle' => 'localizeRelations', 'value' => true]]),
-                    VueAdminTableHelper::getActionArray('Disable', 'multie/fields/update', 'fields', [['handle' => 'localizeRelations', 'value' => false]]),
+                    VueAdminTableHelper::getActionArray('Enable', 'multie/fields/update', 'fields', [['handle' => 'localizeRelations', 'value' => true]], 'enabled'),
+                    VueAdminTableHelper::getActionArray('Disable', 'multie/fields/update', 'fields', [['handle' => 'localizeRelations', 'value' => false]], 'disabled'),
                 ],
             ],
         ];

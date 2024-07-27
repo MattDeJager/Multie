@@ -67,9 +67,6 @@ class FieldsController extends Controller
 
     public function actionIndex(int $fieldGroupId = null): \yii\web\Response
     {
-
-        // todo: Connect Fields in Table to Fields in Side Bar
-        // todo: Add dynamic actions for each field group
         $this->requireAdmin();
 
         /** @var FieldsService $fieldService */
@@ -81,41 +78,7 @@ class FieldsController extends Controller
 
         $fieldGroups = $fieldGroupService->getAllFieldGroups();
 
-        $actions = [
-            [
-                'label' => \Craft::t('app', 'Set Status'),
-                'actions' => [
-                    [
-                        'label' => \Craft::t('app', 'Enabled'),
-                        'action' => 'multie/sections/update-status',
-                        'param' => 'status',
-                        'value' => 'enabled',
-                        'status' => 'enabled',
-                    ],
-                    [
-                        'label' => \Craft::t('app', 'Disabled'),
-                        'action' => 'multie/sections/update-status',
-                        'param' => 'status',
-                        'value' => 'disabled',
-                        'status' => 'disabled',
-                    ],
-                ],
-            ],
-
-            [
-                "icon" => "settings",
-                'actions' => [
-                    [
-                        'label' => \Craft::t('app', 'Copy settings from default site'),
-                        'action' => 'multie/sections/copy-settings',
-                        'param' => 'site',
-                        'value' => 'default',
-                        'icon' => 'settings',
-                    ]
-                ],
-            ],
-
-        ];
+        $actions = $this->getTableActions();
 
         $fields = $fieldService->getFieldsInGroup($fieldGroup);
 
@@ -137,20 +100,6 @@ class FieldsController extends Controller
 
             ];
         }
-
-//        [{
-//        id: field.id,
-//        title: field.name|t('site'),
-//        translatable: field.getIsTranslatable() ? (field.getTranslationDescription() ?? 'This field is translatable.'|t('app')),
-//        searchable: field.searchable ? true : false,
-//        url: url('settings/fields/edit/' ~ field.id),
-//        handle: field.handle,
-//        type: {
-//            isMissing: fieldIsMissing,
-//            label: fieldIsMissing ? field.expectedType : field.displayName()
-//        },
-//        group: group ? group.name|t('site')|e : "<span class=\"error\">#{'(Ungrouped)'|t('app')}</span>",
-//    }]
 
         $field = Craft::$app->fields->getFieldById(1);
 
@@ -188,6 +137,105 @@ class FieldsController extends Controller
 
 
         return $this->renderTemplate('multie/fields/index.twig', ["field" => $field]);
+    }
+
+    private function getTableActions()
+
+        // TODO all the below actions should be the same with a different config/fields value
+    {
+        return [
+            [
+                'label' => \Craft::t('app', 'Translation Method'),
+                'icon' => 'translate', // TODO set a icon here
+                'actions' => [
+                    [
+                        'label' => \Craft::t('app', 'Not translatable'),
+                        'action' => 'multie/fields/update-translation-method',
+                        'param' => 'translationMethod',
+                        'value' => 'none',
+                    ],
+                    [
+                        'label' => \Craft::t('app', 'Translate for each site'),
+                        'action' => 'multie/fields/update-translation-method',
+                        'param' => 'translationMethod',
+                        'value' => 'site',
+                    ],
+                    [
+                        'label' => \Craft::t('app', 'Translate for each site group'),
+                        'action' => 'multie/fields/update-translation-method',
+                        'param' => 'translationMethod',
+                        'value' => 'siteGroup',
+                    ],
+                    [
+                        'label' => \Craft::t('app', 'Translate for each language'),
+                        'action' => 'multie/fields/update-translation-method',
+                        'param' => 'translationMethod',
+                        'value' => 'language',
+                    ],
+                    [
+                        'label' => \Craft::t('app', 'Custom…'),
+                        'action' => 'multie/fields/update-translation-method',
+                        'param' => 'translationMethod',
+                        'value' => 'custom',
+                    ],
+                ],
+            ],
+
+            [
+                "label" => Craft::t('app', 'Propagation Method'),
+                'actions' => [
+                    [
+                        'label' => \Craft::t('app', 'Only save blocks to the site they were created in'),
+                        'action' => 'multie/fields/update-propagation-method',
+                        'param' => 'propagationMethod',
+                        'value' => 'none',
+                    ],
+                    [
+                        'label' => \Craft::t('app', 'Save blocks to other sites in the same site group'),
+                        'action' => 'multie/fields/update-propagation-method',
+                        'param' => 'propagationMethod',
+                        'value' => 'siteGroup',
+                    ],
+                    [
+                        'label' => \Craft::t('app', 'Save blocks to other sites with the same language'),
+                        'action' => 'multie/fields/update-propagation-method',
+                        'param' => 'propagationMethod',
+                        'value' => 'language',
+                    ],
+                    [
+                        'label' => \Craft::t('app', 'Save blocks to all sites the owner element is saved in'),
+                        'action' => 'multie/fields/update-propagation-method',
+                        'param' => 'propagationMethod',
+                        'value' => 'all',
+                    ],
+                    [
+                        'label' => \Craft::t('app', 'Custom...'),
+                        'action' => 'multie/fields/update-propagation-method',
+                        'param' => 'propagationMethod',
+                        'value' => 'custom',
+                    ],
+                ],
+            ],
+            [
+                "label" => Craft::t('app', 'Manage relations on a per-site basis'),
+                'actions' => [
+                    [
+                        'label' => \Craft::t('app', 'Enable'),
+                        'action' => 'multie/fields/update-localize-relations',
+                        'param' => 'localizeRelations',
+                        'value' => true,
+                        'status' => 'enabled'
+                    ],
+                    [
+                        'label' => \Craft::t('app', 'Disable'),
+                        'action' => 'multie/fields/update-localize-relations',
+                        'param' => 'localizeRelations',
+                        'value' => false,
+                        'status' => 'disabled'
+                    ],
+                ],
+            ],
+        ];
     }
 
 

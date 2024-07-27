@@ -65,8 +65,6 @@ class FieldGroupService
             'id' => 1,
             'name' => 'Simple Fields',
             'fieldTypes' => [
-                AssetsField::class,
-                CategoriesField::class,
                 Checkboxes::class,
                 Color::class,
                 Country::class,

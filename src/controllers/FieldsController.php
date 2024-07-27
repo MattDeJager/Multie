@@ -4,11 +4,63 @@ namespace matthewdejager\craftmultie\controllers;
 
 use Craft;
 use craft\helpers\UrlHelper;
-use craft\models\FieldGroup;
 use craft\web\Controller;
+use matthewdejager\craftmultie\models\FieldGroup;
 use matthewdejager\craftmultie\Plugin;
+use matthewdejager\craftmultie\services\FieldGroupService;
 use matthewdejager\craftmultie\services\FieldsService;
 use matthewdejager\craftmultie\services\SectionsService;
+use craft\fields\Assets as AssetsField;
+use craft\fields\BaseRelationField;
+use craft\fields\Categories as CategoriesField;
+use craft\fields\Checkboxes;
+use craft\fields\Color;
+use craft\fields\Country;
+use craft\fields\Date;
+use craft\fields\Dropdown;
+use craft\fields\Email;
+use craft\fields\Entries as EntriesField;
+use craft\fields\Lightswitch;
+use craft\fields\Matrix;
+use craft\fields\Matrix as MatrixField;
+use craft\fields\Money;
+use craft\fields\MultiSelect;
+use craft\fields\Number;
+use craft\fields\PlainText;
+use craft\fields\RadioButtons;
+use craft\fields\Table as TableField;
+use craft\fields\Tags as TagsField;
+use craft\fields\Time;
+use craft\fields\Url;
+use craft\fields\Users as UsersField;
+use craft\helpers\Console;
+use yii\base\Component;
+
+/**
+ * FIELD TYPES
+ * AssetsField::class,
+ * CategoriesField::class,
+ * Checkboxes::class,
+ * Color::class,
+ * Country::class,
+ * Date::class,
+ * Dropdown::class,
+ * Email::class,
+ * EntriesField::class,
+ * Lightswitch::class,
+ * MatrixField::class,
+ * Money::class,
+ * MultiSelect::class,
+ * Number::class,
+ * PlainText::class,
+ * RadioButtons::class,
+ * TableField::class,
+ * TagsField::class,
+ * Time::class,
+ * Url::class,
+ * UsersField::class,
+ *
+ */
 
 class FieldsController extends Controller
 {
@@ -18,30 +70,16 @@ class FieldsController extends Controller
 
         // todo: Connect Fields in Table to Fields in Side Bar
         // todo: Add dynamic actions for each field group
-        // todo: quick refactor of this function
         $this->requireAdmin();
 
         /** @var FieldsService $fieldService */
         $fieldService = Plugin::getInstance()->field;
+        /** @var FieldGroupService $fieldGroupService */
+        $fieldGroupService = Plugin::getInstance()->fieldGroup;
 
-        $fieldGroups = [
-            [
-                "name" => "All Fields",
-                'id' => 1
-            ],
-            [
-                "name" => "Simple Fields",
-                'id' => 2
-            ],
-            [
-                "name" => "Base Relations Fields",
-                'id' => 3
-            ],
-            [
-                "name" => "Matrix Fields",
-                'id' => 4
-            ],
-        ];
+        $fieldGroup = $fieldGroupService->getFieldGroupById($fieldGroupId);
+
+        $fieldGroups = $fieldGroupService->getAllFieldGroups();
 
         $actions = [
             [
@@ -79,7 +117,7 @@ class FieldsController extends Controller
 
         ];
 
-        $fields = $fieldService->getFieldsInGroup($fieldGroupId);
+        $fields = $fieldService->getFieldsInGroup($fieldGroup);
 
         $tableData = [];
 

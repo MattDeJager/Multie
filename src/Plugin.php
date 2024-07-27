@@ -105,6 +105,7 @@ class Plugin extends BasePlugin
             'field' => \matthewdejager\craftmultie\services\FieldsService::class,
             'section' => \matthewdejager\craftmultie\services\SectionsService::class,
             'site' => \matthewdejager\craftmultie\services\SiteService::class,
+            'fieldGroup' => \matthewdejager\craftmultie\services\FieldGroupService::class,
         ]);
     }
 

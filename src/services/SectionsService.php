@@ -12,7 +12,7 @@ use craft\models\Site;
 class SectionsService
 {
 
-    public function copySettingsFromSite($sectionIds, Site $siteToCopy, Site $site): void
+    public function copySettingsFromSite($settings, $sectionIds, Site $siteToCopy, Site $site): void
     {
         $sectionsService = Craft::$app->sections;
 
@@ -32,9 +32,9 @@ class SectionsService
             }
 
             $siteSettings = $sectionSiteSettings[$site->id] ?? new Section_SiteSettings();
-            $siteSettings->template = $siteToCopySettings->template;
-            $siteSettings->uriFormat = $siteToCopySettings->uriFormat;
-            $siteSettings->hasUrls = true;
+            foreach ($settings as $setting) {
+                $siteSettings[$setting] = $siteToCopySettings[$setting];
+            }
 
             $sectionSiteSettings[$site->id] = $siteSettings;
             $section->setSiteSettings($sectionSiteSettings);

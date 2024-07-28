@@ -45,12 +45,7 @@ if ($siteMenuBtn.length) {
     });
 }
 
-var columns = [
-    { name: "title", title: Craft.t("app", "Name")},
-    { name: "entry_uri_format", title: Craft.t("multie", "Entry URI Format") },
-    { name: "template", title: Craft.t("multie", "Template") },
-
-];
+var columns = {{ columns | json_encode | raw }};
 
 var actions = {{ actions | json_encode | raw }};
 

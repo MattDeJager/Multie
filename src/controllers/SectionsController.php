@@ -15,10 +15,9 @@ class SectionsController extends Controller
     {
         $this->requireAdmin();
 
-        // Get the 'site' parameter from the URL
-        $siteHandle = Craft::$app->request->get('site', 'default'); // Default to 'default' if not provided
+        // TODO: The section name link is going to the wrong place
 
-        // Get the site object by its handle
+        $siteHandle = Craft::$app->request->get('site', 'default'); // Default to 'default' if not provided
         $site = Craft::$app->sites->getSiteByHandle($siteHandle);
 
         $tableData = [];
@@ -30,12 +29,12 @@ class SectionsController extends Controller
 
             $tableData[] = [
                 'id' => $section->id,
-                'title' => Craft::t('site', $section->name),
+                'title' => "<a class='cell-bold' href='/admin/settings/sections/" . $section->id . "'>" . $section->name . "</a>",
                 'url' => UrlHelper::url('multie/sections/edit/' . $section->id),
                 'name' => htmlspecialchars(Craft::t('site', $section->name)),
                 'status' => $status,
-                'entry_uri_format' => $sectionSiteSettings->uriFormat ?? "", // Set the entry_uri_format field to "test"
-                'template' => $sectionSiteSettings->template ?? "", // Set the template field to "test"
+                'entry_uri_format' => $sectionSiteSettings->uriFormat ?? "",
+                'template' => $sectionSiteSettings->template ?? ""
             ];
         }
 

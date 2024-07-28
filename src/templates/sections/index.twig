@@ -46,9 +46,10 @@ if ($siteMenuBtn.length) {
 }
 
 var columns = [
-    { name: "__slot:title", title: Craft.t("app", "Name")},
+    { name: "title", title: Craft.t("app", "Name")},
     { name: "entry_uri_format", title: Craft.t("multie", "Entry URI Format") },
     { name: "template", title: Craft.t("multie", "Template") },
+
 ];
 
 var actions = {{ actions | json_encode | raw }};

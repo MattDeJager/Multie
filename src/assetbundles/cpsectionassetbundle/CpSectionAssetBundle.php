@@ -1,6 +1,6 @@
 <?php
 
-namespace matthewdejager\craftmultie\assetbundles\cpsectionassetbundle;
+namespace boost\multie\assetbundles\cpsectionassetbundle;
 
 use Craft;
 use craft\web\AssetBundle;
@@ -18,7 +18,7 @@ class CpSectionAssetBundle extends AssetBundle
     public function init()
     {
 
-        $this->sourcePath = "@matthewdejager/craftmultie/assetbundles/cpsectionassetbundle/dist";
+        $this->sourcePath = "@boost/multie/assetbundles/cpsectionassetbundle/dist";
 
         $this->depends = [
             CpAsset::class,

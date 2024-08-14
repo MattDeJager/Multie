@@ -1,15 +1,15 @@
 <?php
 
-namespace matthewdejager\craftmultie\console\controllers;
+namespace boost\multie\console\controllers;
 
 use craft\console\Controller;
 use Craft;
 use craft\elements\Section;
 use craft\models\Site;
-use matthewdejager\craftmultie\Plugin;
-use matthewdejager\craftmultie\services\FieldsService;
-use matthewdejager\craftmultie\services\SectionsService;
-use matthewdejager\craftmultie\services\SiteService;
+use boost\multie\Plugin;
+use boost\multie\services\FieldsService;
+use boost\multie\services\SectionsService;
+use boost\multie\services\SiteService;
 use yii\console\ExitCode;
 
 /**

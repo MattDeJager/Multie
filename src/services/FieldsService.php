@@ -1,9 +1,9 @@
 <?php
 
-namespace matthewdejager\craftmultie\services;
+namespace boost\multie\services;
 
 use Craft;
-use matthewdejager\craftmultie\models\FieldGroup;
+use boost\multie\models\FieldGroup;
 
 class FieldsService
 {

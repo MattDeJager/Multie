@@ -1,13 +1,13 @@
 <?php
 
-namespace matthewdejager\craftmultie;
+namespace boost\multie;
 
+use boost\multie\models\Settings;
 use Craft;
 use craft\base\Model;
 use craft\base\Plugin as BasePlugin;
 use craft\events\RegisterUrlRulesEvent;
 use craft\web\UrlManager;
-use matthewdejager\craftmultie\models\Settings;
 use craft\events\RegisterCpNavItemsEvent;
 use craft\web\twig\variables\Cp;
 use yii\base\Event;
@@ -102,10 +102,10 @@ class Plugin extends BasePlugin
 
         // REGISTER SERVICES
         $this->setComponents([
-            'field' => \matthewdejager\craftmultie\services\FieldsService::class,
-            'section' => \matthewdejager\craftmultie\services\SectionsService::class,
-            'site' => \matthewdejager\craftmultie\services\SiteService::class,
-            'fieldGroup' => \matthewdejager\craftmultie\services\FieldGroupService::class,
+            'field' => \boost\multie\services\FieldsService::class,
+            'section' => \boost\multie\services\SectionsService::class,
+            'site' => \boost\multie\services\SiteService::class,
+            'fieldGroup' => \boost\multie\services\FieldGroupService::class,
         ]);
     }
 
@@ -141,7 +141,7 @@ class Plugin extends BasePlugin
                 $event->navItems[] = [
                     'url' => 'multie/sections',
                     'label' => 'Multie',
-                    'icon' => '@matthewdejager/craftmultie/icon-mask.svg',
+                    'icon' => '@boost/multie/icon-mask.svg',
                     'subnav' => [
                         'sections' => [
                             'label' => 'Sections',

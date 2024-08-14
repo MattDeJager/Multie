@@ -1,14 +1,13 @@
 <?php
 
-namespace matthewdejager\craftmultie\controllers;
+namespace boost\multie\controllers;
 
 use Craft;
 use craft\helpers\UrlHelper;
 use craft\models\Site;
 use craft\web\Controller;
-use matthewdejager\craftmultie\helpers\VueAdminTableHelper;
-use matthewdejager\craftmultie\Plugin;
-use matthewdejager\craftmultie\services\SectionsService;
+use boost\multie\helpers\VueAdminTableHelper;
+use boost\multie\Plugin;
 
 class SectionsController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace matthewdejager\craftmultie\console\controllers;
+namespace boost\multie\console\controllers;
 
 use Craft;
 use craft\helpers\Console;

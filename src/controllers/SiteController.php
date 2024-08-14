@@ -1,6 +1,6 @@
 <?php
 
-namespace matthewdejager\craftmultie\controllers;
+namespace boost\multie\controllers;
 
 use Craft;
 use craft\helpers\UrlHelper;

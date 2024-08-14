@@ -1,6 +1,6 @@
 <?php
 
-namespace matthewdejager\craftmultie\services;
+namespace boost\multie\services;
 
 class SiteService
 {

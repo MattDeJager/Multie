@@ -1,6 +1,7 @@
 <?php
 
-namespace matthewdejager\craftmultie\models;
+namespace boost\multie\models;
+
 use craft\base\Model;
 use craft\records\FieldGroup as FieldGroupRecord;
 use craft\validators\UniqueValidator;

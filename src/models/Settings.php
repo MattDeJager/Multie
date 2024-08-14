@@ -1,6 +1,6 @@
 <?php
 
-namespace matthewdejager\craftmultie\models;
+namespace boost\multie\models;
 
 use Craft;
 use craft\base\Model;

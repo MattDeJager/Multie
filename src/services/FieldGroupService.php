@@ -1,6 +1,6 @@
 <?php
 
-namespace matthewdejager\craftmultie\services;
+namespace boost\multie\services;
 
 use Craft;
 use craft\base\Field;
@@ -28,9 +28,7 @@ use craft\fields\Tags as TagsField;
 use craft\fields\Time;
 use craft\fields\Url;
 use craft\fields\Users as UsersField;
-use craft\helpers\Console;
-use matthewdejager\craftmultie\models\FieldGroup;
-use yii\base\Component;
+use boost\multie\models\FieldGroup;
 
 
 /**

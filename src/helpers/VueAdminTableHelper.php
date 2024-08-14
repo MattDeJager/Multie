@@ -1,6 +1,6 @@
 <?php
 
-namespace matthewdejager\craftmultie\helpers;
+namespace boost\multie\helpers;
 
 class VueAdminTableHelper
 {

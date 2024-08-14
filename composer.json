@@ -1,6 +1,6 @@
 {
-    "name": "matthew-de-jager/craft-multie",
-    "description": "Simple craft multi-site management tools",
+    "name": "boost/craft-multie",
+    "description": "Simple craft multi-site management tools.",
     "type": "craft-plugin",
     "license": "mit",
     "support": {
@@ -20,13 +20,13 @@
     },
     "autoload": {
         "psr-4": {
-            "matthewdejager\\craftmultie\\": "src/"
+            "boost\\multie\\": "src/"
         }
     },
     "extra": {
         "handle": "multie",
         "name": "Multie",
-        "developer": "Matthew De Jager",
+        "developer": "Boost",
         "documentationUrl": "https://github.com/git@github.com:mattdejager/craft-multie.git"
     },
     "scripts": {

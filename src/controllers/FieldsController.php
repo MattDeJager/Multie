@@ -1,15 +1,15 @@
 <?php
 
-namespace matthewdejager\craftmultie\controllers;
+namespace boost\multie\controllers;
 
 use Craft;
 use craft\helpers\UrlHelper;
 use craft\web\Controller;
-use matthewdejager\craftmultie\helpers\VueAdminTableHelper;
-use matthewdejager\craftmultie\models\FieldGroup;
-use matthewdejager\craftmultie\Plugin;
-use matthewdejager\craftmultie\services\FieldGroupService;
-use matthewdejager\craftmultie\services\FieldsService;
+use boost\multie\helpers\VueAdminTableHelper;
+use boost\multie\models\FieldGroup;
+use boost\multie\Plugin;
+use boost\multie\services\FieldGroupService;
+use boost\multie\services\FieldsService;
 
 class FieldsController extends Controller
 {

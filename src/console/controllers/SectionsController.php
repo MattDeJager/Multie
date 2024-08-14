@@ -1,14 +1,11 @@
 <?php
 
-namespace matthewdejager\craftmultie\console\controllers;
+namespace boost\multie\console\controllers;
 
-use craft\errors\EntryTypeNotFoundException;
 use craft\helpers\Console;
-use craft\models\Section_SiteSettings;
 use yii\console\ExitCode;
 use Craft;
 use craft\models\Section;
-use craft\base\Field;
 
 /**
  * Sections Controller

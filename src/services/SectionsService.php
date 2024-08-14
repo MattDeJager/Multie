@@ -1,6 +1,6 @@
 <?php
 
-namespace matthewdejager\craftmultie\services;
+namespace boost\multie\services;
 
 use Craft;
 use craft\base\Field;

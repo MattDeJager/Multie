@@ -2,7 +2,7 @@
     "name": "boost/craft-multie",
     "description": "Simple craft multi-site management tools.",
     "type": "craft-plugin",
-    "license": "mit",
+    "license": "proprietary",
     "support": {
         "email": "matthewdejager5@gmail.com",
         "issues": "https://github.com/git@github.com:mattdejager/craft-multie.git/issues?state=open",

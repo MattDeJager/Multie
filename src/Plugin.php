@@ -13,8 +13,6 @@ use craft\web\twig\variables\Cp;
 use yii\base\Event;
 
 // TODO: Continue working towards adding plugin to marketplace https://craftcms.com/knowledge-base/craft-console-organizations
-// TODO: Update Reademe
-// TODO: Register plugin on https://packagist.org/
 // TODO: Translate section Entry Type Title Translation Method & Slug Translation Method
 // TODO: Look into adding bulk translations for category groups
 // TODO: Create new sites based on exisitng/new site configurations
@@ -30,7 +28,7 @@ use yii\base\Event;
  */
 class Plugin extends BasePlugin
 {
-    const string HANDLE = 'multie';
+    const HANDLE = 'multie';
 
     /** @var string The plugin’s schema version number */
     public string $schemaVersion = '1.0.0';
@@ -106,7 +104,6 @@ class Plugin extends BasePlugin
         // Defer most setup tasks until Craft is fully initialized
         Craft::$app->onInit(function() {
             $this->attachEventHandlers();
-            // ...
         });
 
         // REGISTER SERVICES
@@ -143,6 +140,7 @@ class Plugin extends BasePlugin
 
     private function attachEventHandlers(): void
     {
+        // CP NAV
         Event::on(
             Cp::class,
             Cp::EVENT_REGISTER_CP_NAV_ITEMS,
@@ -168,7 +166,6 @@ class Plugin extends BasePlugin
                 ];
             }
         );
-        
         
         // ROUTES
         Event::on(

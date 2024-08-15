@@ -12,6 +12,13 @@ use craft\events\RegisterCpNavItemsEvent;
 use craft\web\twig\variables\Cp;
 use yii\base\Event;
 
+// TODO: Continue working towards adding plugin to marketplace https://craftcms.com/knowledge-base/craft-console-organizations
+// TODO: Update Reademe
+// TODO: Register plugin on https://packagist.org/
+// TODO: Translate section Entry Type Title Translation Method & Slug Translation Method
+// TODO: Look into adding bulk translations for category groups
+// TODO: Create new sites based on exisitng/new site configurations
+
 /**
  * Multie plugin
  *
@@ -23,6 +30,8 @@ use yii\base\Event;
  */
 class Plugin extends BasePlugin
 {
+    const string HANDLE = 'multie';
+
     /** @var string The plugin’s schema version number */
     public string $schemaVersion = '1.0.0';
 
@@ -126,7 +135,7 @@ class Plugin extends BasePlugin
      */
     protected function settingsHtml(): ?string
     {
-        return Craft::$app->view->renderTemplate('multie/_settings.twig', [
+        return Craft::$app->view->renderTemplate(self::HANDLE . '/_settings.twig', [
             'plugin' => $this,
             'settings' => $this->getSettings(),
         ]);
@@ -139,22 +148,22 @@ class Plugin extends BasePlugin
             Cp::EVENT_REGISTER_CP_NAV_ITEMS,
             function(RegisterCpNavItemsEvent $event) {
                 $event->navItems[] = [
-                    'url' => 'multie/sections',
+                    'url' => self::HANDLE . '/sections',
                     'label' => 'Multie',
                     'icon' => '@boost/multie/icon-mask.svg',
                     'subnav' => [
                         'sections' => [
                             'label' => 'Sections',
-                            'url' => 'multie/sections',
+                            'url' => self::HANDLE . '/sections',
                         ],
                         'fields' => [
                             'label' => 'Fields',
-                            'url' => 'multie/fields',
+                            'url' => self::HANDLE . '/fields',
                         ],
-                        'translations' => [
-                            'label' => 'Translations',
-                            'url' => 'multie/translations',
-                        ],
+//                        'translations' => [
+//                            'label' => 'Translations',
+//                            'url' => self::HANDLE . '/translations',
+//                        ],
                     ],
                 ];
             }
@@ -166,10 +175,10 @@ class Plugin extends BasePlugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['multie/sections'] = 'multie/sections/index';
-                $event->rules['multie/fields'] = 'multie/fields/index';
-                $event->rules['multie/fields/<fieldGroupId:\d*>'] = 'multie/fields/index';
-                $event->rules['multie/translations'] = 'multie/translations/index';
+                $event->rules[self::HANDLE . '/sections'] = self::HANDLE . '/sections/index';
+                $event->rules[self::HANDLE . '/fields'] = self::HANDLE . '/fields/index';
+                $event->rules[self::HANDLE . '/fields/<fieldGroupId:\d*>'] = self::HANDLE . '/fields/index';
+                $event->rules[self::HANDLE . '/translations'] = self::HANDLE . '/translations/index';
             }
         );
 

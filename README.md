@@ -1,30 +1,32 @@
-# Multie
+<p align="center"><img src="src/icon.svg" width="100" height="100" alt="Navigation icon"></p>
+<h1 align="center">Multie for Craft CMS</h1>
 
-Simple craft multi-site management tools
+Multie is a Craft CMS plugin to help manage multi-site configurations. The plugin supports bulk enabling, disabling & configuration of sections on a per site basis, bulk translations of fields and much more
 
-## Requirements
+## Features
+- Create multiple navigations
+- Create navigation nodes for entries, assets, categories and Commerce products
+- Create custom URLs
+- Enable/disable, open links in a new window, or apply additional CSS classes
+- Automatically updates nodes when linked elements status or title changes
+- Navigation nodes are elements for flexible querying
+- Support for third-party elements with hooks
+- Support for multi-site navigations
+- Simple `render()` Twig function, or roll your own
+- Generate breadcrumbs easily based on your URL segments
+- Tool to migrate your menus if you've used [A&M Nav for Craft 2](https://github.com/am-impact/amnav) or [Navee for Craft 2](https://github.com/fromtheoutfit/navee)
 
-This plugin requires Craft CMS 4.6.0 or later, and PHP 8.0.2 or later.
+## Documentation
+Visit the [Navigation Plugin page](https://verbb.io/craft-plugins/navigation) for all documentation, guides, pricing and developer resources.
 
-## Installation
+## Credit & Thanks
+A big shoutout to [A&M Nav](https://github.com/am-impact/amnav) for their awesome plugin for Craft 2.
 
-You can install this plugin from the Plugin Store or with Composer.
+## Support
+Get in touch with us via the [Navigation Support page](https://verbb.io/craft-plugins/navigation/support) or by [creating a Github issue](/verbb/navigation/issues)
 
-#### From the Plugin Store
+<h2></h2>
 
-Go to the Plugin Store in your project’s Control Panel and search for “Multie”. Then press “Install”.
-
-#### With Composer
-
-Open your terminal and run the following commands:
-
-```bash
-# go to the project directory
-cd /path/to/my-project.test
-
-# tell Composer to load the plugin
-composer require matthew-de-jager/craft-multie
-
-# tell Craft to install the plugin
-./craft plugin/install multie
-```
+<a href="https://verbb.io" target="_blank">
+    <img width="100" src="https://verbb.io/assets/img/verbb-pill.svg">
+</a>

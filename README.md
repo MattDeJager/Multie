@@ -1,4 +1,4 @@
-<p align="center"><img src="src/icon-mask.svg" width="100" height="100" alt="Navigation icon"></p>
+<p align="center"><img src="src/icon-mask.svg" width="100" height="100" alt="Multie icon"></p>
 <h1 align="center">Multie for Craft CMS</h1>
 
 Multie is a Craft CMS plugin to help manage multi-site configurations. The plugin supports bulk enabling, disabling & configuration of sections on a per site basis, bulk translations of fields and much more
@@ -19,7 +19,7 @@ Get in touch with us via the email at matthewdejager5@gmail.com or by [creating 
 
 <h2></h2>
 
-<a href="https://verbb.io" target="_blank">
-    <img width="100" src="src/boost.svg">
-</a>
+
+<img width="100" src="src/boost.svg">
+
 

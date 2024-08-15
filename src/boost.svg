@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="800px" height="800px" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Dark grey/black circular background -->
+    <circle cx="13.5" cy="13.5" r="13.5" fill="#0F0F0F"/>
+
+    <!-- Centered stylized white letter "B" with a wavy font -->
+    <text x="50%" y="50%" font-family="'Pacifico', cursive" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle" alignment-baseline="central">B</text>
+</svg>

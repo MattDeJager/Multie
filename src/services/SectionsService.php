@@ -5,14 +5,14 @@ namespace boost\multie\services;
 use Craft;
 use craft\base\Field;
 use craft\errors\EntryTypeNotFoundException;
+use craft\models\EntryType;
 use craft\models\Section;
 use craft\models\Section_SiteSettings;
 use craft\models\Site;
 
 class SectionsService
 {
-
-    public function copySettingsFromSite($settings, $sectionIds, Site $siteToCopy, Site $site): void
+    public function copySectionSettingsFromSite($settings, $sectionIds, Site $siteToCopy, Site $site): void
     {
         $sectionsService = Craft::$app->sections;
 
@@ -87,11 +87,6 @@ class SectionsService
 
     public function enableSectionForSite(Section $section, Site $site): void
     {
-        // Enable title translation method for single section entry types
-        if ($section->type == Section::TYPE_SINGLE) {
-            $this->updateEntryTypesTitleTranslation($section);
-        }
-
         // Update or create site settings for the section
         $sectionSiteSettings = $section->getSiteSettings();
         $siteSettings = $sectionSiteSettings[$site->id] ?? new Section_SiteSettings();
@@ -109,18 +104,43 @@ class SectionsService
         }
     }
 
-    private function updateEntryTypesTitleTranslation(Section $section): void
+    public function updateAllEntryTypesForSections(array $sectionIds, array $fields): void
     {
-        foreach ($section->getEntryTypes() as $entryType) {
-            $entryType->titleTranslationMethod = Field::TRANSLATION_METHOD_SITE;
-
-            try {
-                Craft::$app->sections->saveEntryType($entryType);
-            } catch (EntryTypeNotFoundException $e) {
-                Craft::error("Entry type not found: {$e->getMessage()}", __METHOD__);
-            } catch (\Throwable $e) {
-                Craft::error("Error saving entry type: {$e->getMessage()}", __METHOD__);
+        foreach ($sectionIds as $section) {
+            $section = Craft::$app->sections->getSectionById($section);
+            if (!$section) {
+                Craft::error("Section not found: {$section}", __METHOD__);
+                continue;
             }
+            $this->updateAllEntryTypesForSection($section, $fields);
         }
     }
+
+    public function updateAllEntryTypesForSection(Section $section, array $fields): void
+    {
+        foreach ($section->getEntryTypes() as $entryType) {
+            $this->updateEntryTypeFields($entryType, $fields);
+            $this->saveEntryType($entryType);
+        }
+    }
+
+    private function updateEntryTypeFields(EntryType $entryType, array $fields): void
+    {
+        foreach ($fields as $field) {
+            $entryType->{$field['handle']} = $field['value'];
+        }
+    }
+
+    private function saveEntryType(EntryType $entryType): void
+    {
+        try {
+            Craft::$app->sections->saveEntryType($entryType);
+        } catch (EntryTypeNotFoundException $e) {
+            Craft::error("Entry type not found: {$e->getMessage()}", __METHOD__ );
+        } catch (\Throwable $e) {
+            Craft::error("Error saving entry type: {$e->getMessage()}", __METHOD__ );
+        }
+    }
+
+
 }

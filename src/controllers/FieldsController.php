@@ -73,7 +73,14 @@ class FieldsController extends Controller
     private function getTableActionsForFieldGroup(?FieldGroup $group): array
     {
 
-        $fieldTranslationMethod = VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Translation Method'), VueAdminTableHelper::getTranslationMethodActions(), 'translate');
+        $fieldTranslationMethod = VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Translation Method'),
+            [
+                VueAdminTableHelper::getActionArray(\Craft::t('app', 'Not translatable'), 'multie/fields/update', 'fields', [['handle' => 'translationMethod', 'value' => 'none']]),
+                VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each site'), 'multie/fields/update', 'fields', [['handle' => 'translationMethod', 'value' => 'site']]),
+                VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each site group'), 'multie/fields/update', 'fields', [['handle' => 'translationMethod', 'value' => 'siteGroup']]),
+                VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each language'), 'multie/fields/update', 'fields', [['handle' => 'translationMethod', 'value' => 'language']]),
+                VueAdminTableHelper::getActionArray(\Craft::t('app', 'Custom…', 'multie/fields/update'), 'fields', '', [['handle' => 'translationMethod', 'value' => 'custom']]),
+            ], 'translate');
 
         $fieldPropagationMethod = VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Propagation Method'), [
             VueAdminTableHelper::getActionArray('Only save blocks to the site they were created in', 'multie/fields/update', 'fields', [['handle' => 'propagationMethod', 'value' => 'none']]),

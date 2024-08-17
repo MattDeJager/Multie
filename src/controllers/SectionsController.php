@@ -2,6 +2,7 @@
 
 namespace boost\multie\controllers;
 
+use boost\multie\services\SectionsService;
 use Craft;
 use craft\helpers\UrlHelper;
 use craft\models\Site;
@@ -46,17 +47,29 @@ class SectionsController extends Controller
         return $this->redirect('multie/sections');
     }
 
+    public function actionUpdateEntryTypes(): \yii\web\Response
+    {
+        /** @var SectionsService $sectionsService */
+        $sectionsService = Plugin::getInstance()->section;
+        $sectionIds = Craft::$app->request->post("ids");
+        $fields = json_decode(Craft::$app->request->getBodyParam('fields'), true);
+
+        $sectionsService->updateAllEntryTypesForSections($sectionIds, $fields);
+
+        return $this->redirect('multie/sections');
+    }
+
     public function actionCopySettings(): \yii\web\Response
     {
+        /** @var SectionsService $sectionsService */
         $sectionsService = Plugin::getInstance()->section;
 
         $site = $this->getSiteFromRequest();
         $config = json_decode(Craft::$app->request->getBodyParam('site'), true);
         $siteToCopy = Craft::$app->sites->getSiteByHandle($config['handle']);
-        $settings = $config['settings'];
         $sectionIds = Craft::$app->request->post("ids");
 
-        $sectionsService->copySettingsFromSite($settings, $sectionIds, $siteToCopy, $site);
+        $sectionsService->copySectionSettingsFromSite($config['settings'], $sectionIds, $siteToCopy, $site);
 
         return $this->redirect('multie/sections');
     }
@@ -138,7 +151,12 @@ class SectionsController extends Controller
             VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Template'), $templateActions, "settings"),
             // SECTION ENTRY TYPE CONFIG
             // TODO: Wire the below to actually do something
-            VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Entry Type: Title Translation Method'),VueAdminTableHelper::getTranslationMethodActions()),
+            VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Entry Type: Title Translation Method'), [
+                VueAdminTableHelper::getActionArray(\Craft::t('app', 'Not translatable'), 'multie/sections/update-entry-types', 'fields', [['handle' => 'titleTranslationMethod', 'value' => 'none']]),
+                VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each site'), 'multie/sections/update-entry-types', 'fields', [['handle' => 'titleTranslationMethod', 'value' => 'site']]),
+                VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each site group'), 'multie/sections/update-entry-types', 'fields', [['handle' => 'titleTranslationMethod', 'value' => 'siteGroup']]),
+                VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each language'), 'multie/sections/update-entry-types', 'fields', [['handle' => 'titleTranslationMethod', 'value' => 'language']]),
+            ]),
 
         ];
     }

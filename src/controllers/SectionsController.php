@@ -16,6 +16,14 @@ class SectionsController extends Controller
     const ENABLED_STATUS = 'enabled';
     const DISABLED_STATUS = 'disabled';
 
+    const PATH = Plugin::HANDLE . '/sections';
+
+    // ACTIONS
+    const ACTION_UPDATE_STATUS = self::PATH . '/update-status';
+    const ACTION_UPDATE_ENTRY_TYPES = self::PATH . '/update-entry-types';
+    const ACTION_COPY_SETTINGS = self::PATH . '/copy-settings';
+
+
     public function actionIndex(): \yii\web\Response
     {
         $this->requireAdmin();
@@ -27,7 +35,7 @@ class SectionsController extends Controller
         $tableData = $this->getTableData($sections, $site);
         $actions = $this->getTableActions();
 
-        return $this->renderTemplate('multie/sections/index.twig', [
+        return $this->renderTemplate(self::PATH . '/index.twig', [
             'tableData' => $tableData,
             'actions' => $actions,
             'columns' => $columns,
@@ -56,7 +64,7 @@ class SectionsController extends Controller
 
         $sectionsService->updateAllEntryTypesForSections($sectionIds, $fields);
 
-        return $this->redirect('multie/sections');
+        return $this->redirect(self::PATH);
     }
 
     public function actionCopySettings(): \yii\web\Response
@@ -71,8 +79,9 @@ class SectionsController extends Controller
 
         $sectionsService->copySectionSettingsFromSite($config['settings'], $sectionIds, $siteToCopy, $site);
 
-        return $this->redirect('multie/sections');
+        return $this->redirect(self::PATH);
     }
+
 
     private function getSiteFromRequest(): Site
     {
@@ -118,15 +127,15 @@ class SectionsController extends Controller
         $entryUriFormatActions = [];
         $templateActions = [];
         $statusActions = [
-            VueAdminTableHelper::getActionArray('Enabled', 'multie/sections/update-status', 'status', self::ENABLED_STATUS, self::ENABLED_STATUS),
-            VueAdminTableHelper::getActionArray('Disabled', 'multie/sections/update-status', 'status', self::DISABLED_STATUS, self::DISABLED_STATUS),
+            VueAdminTableHelper::getActionArray('Enabled', self::ACTION_UPDATE_STATUS, 'status', self::ENABLED_STATUS, self::ENABLED_STATUS),
+            VueAdminTableHelper::getActionArray('Disabled', self::ACTION_UPDATE_STATUS, 'status', self::DISABLED_STATUS, self::DISABLED_STATUS),
         ];
 
         foreach ($sites as $site) {
             if ($site->handle !== $currentSiteHandle) {
                 $entryUriFormatActions[] = VueAdminTableHelper::getActionArray(
                     "Use from $site->name",
-                    'multie/sections/copy-settings',
+                    self::ACTION_COPY_SETTINGS,
                     'site',
                     [
                         'handle' => $site->handle,
@@ -135,7 +144,7 @@ class SectionsController extends Controller
                 );
                 $templateActions[] = VueAdminTableHelper::getActionArray(
                     "Use from $site->name",
-                    'multie/sections/copy-settings',
+                    self::ACTION_COPY_SETTINGS,
                     'site',
                     [
                         'handle' => $site->handle,
@@ -152,12 +161,12 @@ class SectionsController extends Controller
             // SECTION ENTRY TYPE CONFIG
             VueAdminTableHelper::getActionsArray(
                 \Craft::t('app', 'Entry Type: Title Translation Method'),
-                VueAdminTableHelper::getTranslationMethodActions('multie/sections/update-entry-types', 'titleTranslationMethod')
+                VueAdminTableHelper::getTranslationMethodActions(self::ACTION_UPDATE_ENTRY_TYPES, 'titleTranslationMethod')
             ),
 
             VueAdminTableHelper::getActionsArray(
                 \Craft::t('app', 'Entry Type: Slug Translation Method'),
-                VueAdminTableHelper::getTranslationMethodActions('multie/sections/update-entry-types', 'slugTranslationMethod')
+                VueAdminTableHelper::getTranslationMethodActions(self::ACTION_UPDATE_ENTRY_TYPES, 'slugTranslationMethod')
             ),
 
 

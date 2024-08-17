@@ -24,24 +24,6 @@
 {% endblock %}
 
 {% block content %}
-    {# TODO: Move the below into the form actions, but research and do it clean #}
-    {% if craft.app.getIsMultiSite() %}
-        {{ forms.selectField({
-            label: 'Slug Translation Method'|t('app'),
-            instructions: 'How should {type} slugs be translated?'|t('app'),
-            id: 'slug-translation-method',
-            name: 'slugTranslationMethod',
-            options: [
-                { value: 'none', label: 'Not translatable'|t('app') },
-                { value: 'site', label: 'Translate for each site'|t('app') },
-                { value: 'siteGroup', label: 'Translate for each site group'|t('app') },
-                { value: 'language', label: 'Translate for each language'|t('app') },
-                { value: 'custom', label: 'Custom…'|t('app') },
-            ]|filter,
-            toggle: true,
-            targetPrefix: 'slug-translation-method-'
-        }) }}
-    {% endif %}
     <div id="sections-vue-admin-table"></div>
 {% endblock %}
 

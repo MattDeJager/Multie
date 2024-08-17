@@ -2,6 +2,7 @@
 
 namespace boost\multie\controllers;
 
+use boost\multie\helpers\SectionsVueAdminTableHelper;
 use boost\multie\services\SectionsService;
 use Craft;
 use craft\helpers\UrlHelper;
@@ -13,9 +14,6 @@ use boost\multie\Plugin;
 class SectionsController extends Controller
 {
     const DEFAULT_SITE_HANDLE = 'default';
-    const ENABLED_STATUS = 'enabled';
-    const DISABLED_STATUS = 'disabled';
-
     const PATH = Plugin::HANDLE . '/sections';
 
     // ACTIONS
@@ -28,12 +26,11 @@ class SectionsController extends Controller
     {
         $this->requireAdmin();
 
-        $site = $this->getSiteFromRequest();
         $sections = Craft::$app->sections->getAllSections();
 
-        $columns = $this->getColumns();
-        $tableData = $this->getTableData($sections, $site);
-        $actions = $this->getTableActions();
+        $columns = SectionsVueAdminTableHelper::columns();
+        $tableData = SectionsVueAdminTableHelper::data($sections);
+        $actions = SectionsVueAdminTableHelper::actions();
 
         return $this->renderTemplate(self::PATH . '/index.twig', [
             'tableData' => $tableData,
@@ -87,89 +84,5 @@ class SectionsController extends Controller
     {
         $siteHandle = Craft::$app->request->get('site', self::DEFAULT_SITE_HANDLE);
         return Craft::$app->sites->getSiteByHandle($siteHandle);
-    }
-
-    private function getColumns(): array
-    {
-        return [
-            ['name' => 'title', 'title' => Craft::t('app', 'Name')],
-            ['name' => 'entry_uri_format', 'title' => Craft::t('multie', 'Entry URI Format')],
-            ['name' => 'template', 'title' => Craft::t('multie', 'Template')],
-        ];
-    }
-
-    private function getTableData(array $sections, Site $site): array
-    {
-        $tableData = [];
-
-        foreach ($sections as $section) {
-            $sectionSiteSettings = $section->getSiteSettings()[$site->id] ?? null;
-            $status = isset($sectionSiteSettings) ? self::ENABLED_STATUS : self::DISABLED_STATUS;
-
-            $tableData[] = [
-                'id' => $section->id,
-                'title' => "<span class='status " . $status . "'></span><a class='cell-bold' href='/admin/settings/sections/" . $section->id . "'>" . $section->name . "</a>",
-                'url' => UrlHelper::url('multie/sections/edit/' . $section->id),
-                'name' => htmlspecialchars(Craft::t('site', $section->name)),
-                'status' => $status,
-                'entry_uri_format' => $sectionSiteSettings->uriFormat ?? "",
-                'template' => $sectionSiteSettings->template ?? "",
-            ];
-        }
-
-        return $tableData;
-    }
-
-    private function getTableActions(): array
-    {
-        $sites = Craft::$app->sites->getAllSites();
-        $currentSiteHandle = Craft::$app->request->get('site', self::DEFAULT_SITE_HANDLE);
-        $entryUriFormatActions = [];
-        $templateActions = [];
-        $statusActions = [
-            VueAdminTableHelper::getActionArray('Enabled', self::ACTION_UPDATE_STATUS, 'status', self::ENABLED_STATUS, self::ENABLED_STATUS),
-            VueAdminTableHelper::getActionArray('Disabled', self::ACTION_UPDATE_STATUS, 'status', self::DISABLED_STATUS, self::DISABLED_STATUS),
-        ];
-
-        foreach ($sites as $site) {
-            if ($site->handle !== $currentSiteHandle) {
-                $entryUriFormatActions[] = VueAdminTableHelper::getActionArray(
-                    "Use from $site->name",
-                    self::ACTION_COPY_SETTINGS,
-                    'site',
-                    [
-                        'handle' => $site->handle,
-                        'settings' => ['uriFormat', 'hasUrls']
-                    ]
-                );
-                $templateActions[] = VueAdminTableHelper::getActionArray(
-                    "Use from $site->name",
-                    self::ACTION_COPY_SETTINGS,
-                    'site',
-                    [
-                        'handle' => $site->handle,
-                        'settings' => ['template', 'hasUrls']
-                    ]
-                );
-            }
-        }
-
-        return [
-            VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Set Status'), $statusActions),
-            VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Entry URI Format'), $entryUriFormatActions, "settings"),
-            VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Template'), $templateActions, "settings"),
-            // SECTION ENTRY TYPE CONFIG
-            VueAdminTableHelper::getActionsArray(
-                \Craft::t('app', 'Entry Type: Title Translation Method'),
-                VueAdminTableHelper::getTranslationMethodActions(self::ACTION_UPDATE_ENTRY_TYPES, 'titleTranslationMethod')
-            ),
-
-            VueAdminTableHelper::getActionsArray(
-                \Craft::t('app', 'Entry Type: Slug Translation Method'),
-                VueAdminTableHelper::getTranslationMethodActions(self::ACTION_UPDATE_ENTRY_TYPES, 'slugTranslationMethod')
-            ),
-
-
-        ];
     }
 }

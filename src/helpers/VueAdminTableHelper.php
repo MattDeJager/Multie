@@ -2,9 +2,8 @@
 
 namespace boost\multie\helpers;
 
-class VueAdminTableHelper
+abstract class VueAdminTableHelper implements VueAdminTableHelperInterface
 {
-
     public static function getActionArray(string $label, string $action, string $param, $values, string $status = ""): array
     {
         return [

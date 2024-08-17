@@ -72,36 +72,21 @@ class FieldsController extends Controller
 
     private function getTableActionsForFieldGroup(?FieldGroup $group): array
     {
-        $fieldTranslationMethod = [
-            'label' => \Craft::t('app', 'Translation Method'),
-            'icon' => 'translate',
-            'actions' => [
-                VueAdminTableHelper::getActionArray('Not translatable', 'multie/fields/update', 'fields', [['handle' => 'translationMethod', 'value' => 'none']]),
-                VueAdminTableHelper::getActionArray('Translate for each site', 'multie/fields/update', 'fields', [['handle' => 'translationMethod', 'value' => 'site']]),
-                VueAdminTableHelper::getActionArray('Translate for each site group', 'multie/fields/update', 'fields', [['handle' => 'translationMethod', 'value' => 'siteGroup']]),
-                VueAdminTableHelper::getActionArray('Translate for each language', 'multie/fields/update', 'fields', [['handle' => 'translationMethod', 'value' => 'language']]),
-                VueAdminTableHelper::getActionArray('Custom…', 'multie/fields/update', 'fields', [['handle' => 'translationMethod', 'value' => 'custom']]),
-            ],
-        ];
 
-        $fieldPropagationMethod =   [
-            'label' => \Craft::t('app', 'Propagation Method'),
-            'actions' => [
-                VueAdminTableHelper::getActionArray('Only save blocks to the site they were created in', 'multie/fields/update', 'fields', [['handle' => 'propagationMethod', 'value' => 'none']]),
-                VueAdminTableHelper::getActionArray('Save blocks to other sites in the same site group', 'multie/fields/update', 'fields', [['handle' => 'propagationMethod', 'value' => 'siteGroup']]),
-                VueAdminTableHelper::getActionArray('Save blocks to other sites with the same language', 'multie/fields/update', 'fields', [['handle' => 'propagationMethod', 'value' => 'language']]),
-                VueAdminTableHelper::getActionArray('Save blocks to all sites the owner element is saved in', 'multie/fields/update', 'fields', [['handle' => 'propagationMethod', 'value' => 'all']]),
-                VueAdminTableHelper::getActionArray('Custom...', 'multie/fields/update', 'fields', [['handle' => 'propagationMethod', 'value' => 'custom']]),
-            ],
-        ];
+        $fieldTranslationMethod = VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Translation Method'), VueAdminTableHelper::getTranslationMethodActions(), 'translate');
 
-        $fieldManageRelations = [
-            'label' => \Craft::t('app', 'Manage relations on a per-site basis'),
-            'actions' => [
-                VueAdminTableHelper::getActionArray('Enable', 'multie/fields/update', 'fields', [['handle' => 'localizeRelations', 'value' => true]], 'enabled'),
-                VueAdminTableHelper::getActionArray('Disable', 'multie/fields/update', 'fields', [['handle' => 'localizeRelations', 'value' => false]], 'disabled'),
-            ],
-        ];
+        $fieldPropagationMethod = VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Propagation Method'), [
+            VueAdminTableHelper::getActionArray('Only save blocks to the site they were created in', 'multie/fields/update', 'fields', [['handle' => 'propagationMethod', 'value' => 'none']]),
+            VueAdminTableHelper::getActionArray('Save blocks to other sites in the same site group', 'multie/fields/update', 'fields', [['handle' => 'propagationMethod', 'value' => 'siteGroup']]),
+            VueAdminTableHelper::getActionArray('Save blocks to other sites with the same language', 'multie/fields/update', 'fields', [['handle' => 'propagationMethod', 'value' => 'language']]),
+            VueAdminTableHelper::getActionArray('Save blocks to all sites the owner element is saved in', 'multie/fields/update', 'fields', [['handle' => 'propagationMethod', 'value' => 'all']]),
+            VueAdminTableHelper::getActionArray('Custom...', 'multie/fields/update', 'fields', [['handle' => 'propagationMethod', 'value' => 'custom']]),
+        ]);
+
+        $fieldManageRelations = VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Manage relations on a per-site basis'), [
+            VueAdminTableHelper::getActionArray('Enable', 'multie/fields/update', 'fields', [['handle' => 'localizeRelations', 'value' => true]], 'enabled'),
+            VueAdminTableHelper::getActionArray('Disable', 'multie/fields/update', 'fields', [['handle' => 'localizeRelations', 'value' => false]], 'disabled'),
+        ]);
 
         if ($group instanceof FieldGroup) {
             switch ($group->id) {

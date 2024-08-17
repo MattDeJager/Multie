@@ -16,6 +16,21 @@ use yii\base\Event;
 // TODO: Translate section Entry Type Title Translation Method & Slug Translation Method
 // TODO: Look into adding bulk translations for category groups
 // TODO: Create new sites based on exisitng/new site configurations
+// TODO: Look into site group translations
+// TODO: Handle custom translation methods
+
+/**
+ * Shortcuts to practice!!!
+ * - Go To Declaration: ctrl + B
+ * - Next Tab: alt + right
+ * - Previous Tab: alt + left
+ * - Recent Usages: ctrl + shift + E
+ * - Global Search: shift + shift
+ * - File Strucutre: ctrl + 0
+ * -
+ *
+ */
+
 
 /**
  * Multie plugin

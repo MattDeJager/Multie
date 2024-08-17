@@ -133,20 +133,13 @@ class SectionsController extends Controller
         }
 
         return [
-            [
-                'label' => \Craft::t('app', 'Set Status'),
-                'actions' => $statusActions,
-            ],
-            [
-                'label' => \Craft::t('app', 'Entry URI Format'),
-                'icon' => 'settings',
-                'actions' => $entryUriFormatActions
-            ],
-            [
-                'label' => \Craft::t('app', 'Template'),
-                'icon' => 'settings',
-                'actions' => $templateActions
-            ],
+            VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Set Status'), $statusActions),
+            VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Entry URI Format'), $entryUriFormatActions, "settings"),
+            VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Template'), $templateActions, "settings"),
+            // SECTION ENTRY TYPE CONFIG
+            // TODO: Wire the below to actually do something
+            VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Entry Type: Title Translation Method'),VueAdminTableHelper::getTranslationMethodActions()),
+
         ];
     }
 }

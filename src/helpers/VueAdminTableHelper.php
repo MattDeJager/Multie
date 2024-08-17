@@ -28,4 +28,14 @@ class VueAdminTableHelper
         return $actionArr;
     }
 
+    public static function getTranslationMethodActions(string $action, $handle): array
+    {
+        return [
+            VueAdminTableHelper::getActionArray(\Craft::t('app', 'Not translatable'), $action, 'fields', [['handle' => $handle, 'value' => 'none']]),
+            VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each site'), $action, 'fields', [['handle' => $handle, 'value' => 'site']]),
+            VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each site group'), $action, 'fields', [['handle' => $handle, 'value' => 'siteGroup']]),
+            VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each language'), $action, 'fields', [['handle' => $handle, 'value' => 'language']]),
+        ];
+    }
+
 }

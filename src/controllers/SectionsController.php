@@ -32,7 +32,7 @@ class SectionsController extends Controller
         $tableData = SectionsVueAdminTableHelper::data($sections);
         $actions = SectionsVueAdminTableHelper::actions();
 
-        return $this->renderTemplate(self::PATH . '/index.twig', [
+        return $this->renderTemplate(self::PATH . '/site-settings.twig', [
             'tableData' => $tableData,
             'actions' => $actions,
             'columns' => $columns,

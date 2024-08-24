@@ -18,6 +18,12 @@ use yii\base\Event;
 // TODO: Create new sites based on exisitng/new site configurations
 // TODO: Look into site group translations
 // TODO: Handle custom translation methods
+// TODO: Add search/filter to tables
+// TODO: Work out how to display the section Entry Type Data
+
+
+// ******************* PRIORIRTY *******************
+// TODO: Sections needs two different views 1. Site Settings 2. General Settings
 
 /**
  * Shortcuts to practice!!!

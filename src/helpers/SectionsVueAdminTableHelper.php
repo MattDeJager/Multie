@@ -5,11 +5,21 @@ namespace boost\multie\helpers;
 use boost\multie\controllers\SectionsController;
 use Craft;
 use craft\helpers\UrlHelper;
+use craft\models\Section;
 
 class SectionsVueAdminTableHelper extends VueAdminTableHelper
 {
     const ENABLED_STATUS = 'enabled';
     const DISABLED_STATUS = 'disabled';
+
+    private static array $propagationMethods = [
+        'all' => 'Save entries to all sites enabled for this section',
+        'siteGroup' => 'Save entries to other sites in the same site group',
+        'language' => 'Save entries to other sites with the same language',
+        'none' => 'Only save entries to the site they were created in',
+        'custom' => 'Let each entry choose which sites it should be saved to',
+    ];
+
 
     public static function actions(): array
     {
@@ -45,10 +55,20 @@ class SectionsVueAdminTableHelper extends VueAdminTableHelper
             }
         }
 
+        $propagationMethodActions = [];
+        foreach (self::$propagationMethods as $key => $value) {
+            $propagationMethodActions[] = VueAdminTableHelper::getActionArray($value, SectionsController::ACTION_UPDATE_ENTRY_TYPES, 'propagationMethod', $key);
+        }
+
         return [
             VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Set Status'), $statusActions),
             VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Entry URI Format'), $entryUriFormatActions, "settings"),
             VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Template'), $templateActions, "settings"),
+            // *** the below actions are NOT site specifc and need thinking about
+            // *** Maybe I have 2x tabs?
+
+            VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Propagation Method'), $propagationMethodActions),
+
             // SECTION ENTRY TYPE CONFIG
             VueAdminTableHelper::getActionsArray(
                 \Craft::t('app', 'Entry Type: Title Translation Method'),
@@ -72,6 +92,7 @@ class SectionsVueAdminTableHelper extends VueAdminTableHelper
 
         $tableData = [];
 
+        /** @var Section $section */
         foreach ($entries as $section) {
             $sectionSiteSettings = $section->getSiteSettings()[$site->id] ?? null;
             $status = isset($sectionSiteSettings) ? self::ENABLED_STATUS : self::DISABLED_STATUS;
@@ -84,6 +105,7 @@ class SectionsVueAdminTableHelper extends VueAdminTableHelper
                 'status' => $status,
                 'entry_uri_format' => $sectionSiteSettings->uriFormat ?? "",
                 'template' => $sectionSiteSettings->template ?? "",
+                'propagation_method' => self::$propagationMethods[$section->propagationMethod] ?? "",
             ];
         }
 
@@ -97,6 +119,7 @@ class SectionsVueAdminTableHelper extends VueAdminTableHelper
             ['name' => 'title', 'title' => Craft::t('app', 'Name')],
             ['name' => 'entry_uri_format', 'title' => Craft::t('multie', 'Entry URI Format')],
             ['name' => 'template', 'title' => Craft::t('multie', 'Template')],
+            ['name' => 'propagation_method', 'title' => Craft::t('multie', 'Propagation Method')],
         ];
     }
 

@@ -1,11 +1,6 @@
-{% extends "multie/_layouts/index.twig" %}
+{% extends "multie/sections/_layout.twig" %}
 
 {% import '_includes/forms' as forms %}
-
-{% set crumbs = [
-    { label: 'Multie'|t('plugin-handle'), url: url('multie') },
-    { label: 'Sites'|t('plugin-handle'), url: url('multie') },
-] %}
 
 {% set showHeader = true %}
 {% set fullPageForm = true %}

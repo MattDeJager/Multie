@@ -1,0 +1,28 @@
+{% extends "multie/_layouts/index.twig" %}
+
+{% set crumbs = [
+    { label: 'Multie'|t('plugin-handle'), url: url('multie') },
+    { label: 'Sections'|t('plugin-handle'), url: url('multie') },
+] %}
+
+{#    {% set tabs = {#}
+{#        settings: {#}
+{#            label: 'Settings'|t('app'),#}
+{#            url: url("settings/sections/#{section.id}"),#}
+{#        },#}
+{#        entryTypes: {#}
+{#            label: 'Entry Types'|t('app'),#}
+{#            url: url("settings/sections/#{section.id}/entrytypes"),#}
+{#        },#}
+{#    } %}#}
+
+    {% set tabs = {
+        settings: {
+            label: 'Site Settings'|t('app'),
+            url: url(""),
+        },
+        entryTypes: {
+            label: 'General Settings'|t('app'),
+            url: url(""),
+        },
+    } %}

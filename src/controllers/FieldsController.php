@@ -15,6 +15,11 @@ use boost\multie\services\FieldsService;
 
 class FieldsController extends Controller
 {
+    const PATH = Plugin::HANDLE . '/fields';
+
+    // ACTIONS
+    const ACTION_UPDATE = self::PATH . '/update';
+
     public function actionIndex(int $fieldGroupId = null): \yii\web\Response
     {
         $this->requireAdmin();

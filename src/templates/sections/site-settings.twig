@@ -1,13 +1,5 @@
 {% extends "multie/sections/_layout.twig" %}
 
-{% import '_includes/forms' as forms %}
-
-{% set showHeader = true %}
-{% set fullPageForm = true %}
-{% set selectedSubnavItem = 'sections' %}
-{% set title = "Multie Site Manager" %}
-
-
 {% set contextMenu %}
     {% if craft.app.getIsMultiSite() %}
         {% include '_elements/sitemenu' %}
@@ -39,23 +31,5 @@ if ($siteMenuBtn.length) {
         location.reload();
     });
 }
-
-var columns = {{ columns | json_encode | raw }};
-
-var actions = {{ actions | json_encode | raw }};
-
-new Craft.VueAdminTable({
-
-    actions: actions,
-    columns: columns,
-    container: "#sections-vue-admin-table",
-    emptyMessage: Craft.t("plugin-handle", "No sections exist yet."),
-    reorderAction: "",
-    tableData: {{ tableData | json_encode | raw }},
-        allowMultipleSelections: true,
-        checkboxes: true
-    });
-
-
 {% endjs %}
 

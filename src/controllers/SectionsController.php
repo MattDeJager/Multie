@@ -22,7 +22,7 @@ class SectionsController extends Controller
     const ACTION_COPY_SETTINGS = self::PATH . '/copy-settings';
 
 
-    public function actionIndex(): \yii\web\Response
+    public function actionSiteSettingsIndex(): \yii\web\Response
     {
         $this->requireAdmin();
 
@@ -36,6 +36,25 @@ class SectionsController extends Controller
             'tableData' => $tableData,
             'actions' => $actions,
             'columns' => $columns,
+        ]);
+    }
+    public function actionGeneralSettingsIndex(): \yii\web\Response
+    {
+
+        // TODO: Show a table with the propogation method for each section
+        $this->requireAdmin();
+
+        $sections = Craft::$app->sections->getAllSections();
+
+        $columns = SectionsVueAdminTableHelper::columns();
+        $tableData = SectionsVueAdminTableHelper::data($sections);
+        $actions = SectionsVueAdminTableHelper::actions();
+
+        return $this->renderTemplate(self::PATH . '/general-settings.twig', [
+            'tableData' => $tableData,
+            'actions' => $actions,
+            'columns' => $columns,
+            'selected'
         ]);
     }
 

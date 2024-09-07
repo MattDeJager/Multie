@@ -87,7 +87,12 @@ class SectionsVueAdminTableHelper extends VueAdminTableHelper
     public static function data($entries): array
     {
 
+        // TODO: This should not be in here
+        // TODO: Probably needs to show a message and create site button if no sites exist
         $siteHandle = Craft::$app->request->get('site');
+        if (!$siteHandle) {
+            $siteHandle = SectionsController::DEFAULT_SITE_HANDLE;
+        }
         $site = Craft::$app->sites->getSiteByHandle($siteHandle);
 
         $tableData = [];

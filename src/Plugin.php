@@ -193,7 +193,8 @@ class Plugin extends BasePlugin
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules[self::HANDLE . '/sections'] = self::HANDLE . '/sections/index';
+                $event->rules[self::HANDLE . '/sections'] = self::HANDLE . '/sections/site-settings-index';
+                $event->rules[self::HANDLE . '/sections/general'] = self::HANDLE . '/sections/general-settings-index';
                 $event->rules[self::HANDLE . '/fields'] = self::HANDLE . '/fields/index';
                 $event->rules[self::HANDLE . '/fields/<fieldGroupId:\d*>'] = self::HANDLE . '/fields/index';
                 $event->rules[self::HANDLE . '/translations'] = self::HANDLE . '/translations/index';

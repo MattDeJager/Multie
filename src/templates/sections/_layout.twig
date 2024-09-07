@@ -1,28 +1,51 @@
 {% extends "multie/_layouts/index.twig" %}
 
+{% import '_includes/forms' as forms %}
+
 {% set crumbs = [
     { label: 'Multie'|t('plugin-handle'), url: url('multie') },
     { label: 'Sections'|t('plugin-handle'), url: url('multie') },
 ] %}
 
-{#    {% set tabs = {#}
-{#        settings: {#}
-{#            label: 'Settings'|t('app'),#}
-{#            url: url("settings/sections/#{section.id}"),#}
-{#        },#}
-{#        entryTypes: {#}
-{#            label: 'Entry Types'|t('app'),#}
-{#            url: url("settings/sections/#{section.id}/entrytypes"),#}
-{#        },#}
-{#    } %}#}
+{% set showHeader = true %}
+{% set fullPageForm = true %}
+{% set selectedSubnavItem = 'sections' %}
+{% set title = "Multie Site Manager" %}
 
-    {% set tabs = {
-        settings: {
-            label: 'Site Settings'|t('app'),
-            url: url(""),
-        },
-        entryTypes: {
-            label: 'General Settings'|t('app'),
-            url: url(""),
-        },
-    } %}
+{% block sidebar %}
+    <nav>
+        <ul id="groups">
+            <li>
+                <a {% if craft.app.request.getPathInfo() == "multie/sections" %}class="sel"{% endif %} href="{{ url('multie/sections') }}" data-id="0">
+                    {{ "Site Settings "|t('site') }}
+                </a>
+            </li>
+            <li>
+                <a {% if craft.app.request.getPathInfo() == "multie/sections/general" %}class="sel"{% endif %} href="{{ url('multie/sections/general') }}" data-id="0">
+                    {{ "General Settings "|t('site') }}
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% js %}
+
+    var columns = {{ columns | json_encode | raw }};
+
+    var actions = {{ actions | json_encode | raw }};
+
+    new Craft.VueAdminTable({
+
+    actions: actions,
+    columns: columns,
+    container: "#sections-vue-admin-table",
+    emptyMessage: Craft.t("plugin-handle", "No sections exist yet."),
+    reorderAction: "",
+    tableData: {{ tableData | json_encode | raw }},
+    allowMultipleSelections: true,
+    checkboxes: true
+    });
+
+{% endjs %}
+

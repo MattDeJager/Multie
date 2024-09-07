@@ -2,7 +2,8 @@
 
 namespace boost\multie\controllers;
 
-use boost\multie\helpers\SectionsVueAdminTableHelper;
+use boost\multie\helpers\SectionGeneralSettingsVueAdminTableHelper;
+use boost\multie\helpers\SectionSiteSettingsVueAdminTableHelper;
 use boost\multie\services\SectionsService;
 use Craft;
 use craft\helpers\UrlHelper;
@@ -28,9 +29,9 @@ class SectionsController extends Controller
 
         $sections = Craft::$app->sections->getAllSections();
 
-        $columns = SectionsVueAdminTableHelper::columns();
-        $tableData = SectionsVueAdminTableHelper::data($sections);
-        $actions = SectionsVueAdminTableHelper::actions();
+        $columns = SectionSiteSettingsVueAdminTableHelper::columns();
+        $tableData = SectionSiteSettingsVueAdminTableHelper::data($sections);
+        $actions = SectionSiteSettingsVueAdminTableHelper::actions();
 
         return $this->renderTemplate(self::PATH . '/site-settings.twig', [
             'tableData' => $tableData,
@@ -40,15 +41,13 @@ class SectionsController extends Controller
     }
     public function actionGeneralSettingsIndex(): \yii\web\Response
     {
-
-        // TODO: Show a table with the propogation method for each section
         $this->requireAdmin();
 
         $sections = Craft::$app->sections->getAllSections();
 
-        $columns = SectionsVueAdminTableHelper::columns();
-        $tableData = SectionsVueAdminTableHelper::data($sections);
-        $actions = SectionsVueAdminTableHelper::actions();
+        $columns = SectionGeneralSettingsVueAdminTableHelper::columns();
+        $tableData = SectionGeneralSettingsVueAdminTableHelper::data($sections);
+        $actions = SectionGeneralSettingsVueAdminTableHelper::actions();
 
         return $this->renderTemplate(self::PATH . '/general-settings.twig', [
             'tableData' => $tableData,

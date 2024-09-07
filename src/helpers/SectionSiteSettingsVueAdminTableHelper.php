@@ -7,19 +7,10 @@ use Craft;
 use craft\helpers\UrlHelper;
 use craft\models\Section;
 
-class SectionsVueAdminTableHelper extends VueAdminTableHelper
+class SectionSiteSettingsVueAdminTableHelper extends VueAdminTableHelper
 {
     const ENABLED_STATUS = 'enabled';
     const DISABLED_STATUS = 'disabled';
-
-    private static array $propagationMethods = [
-        'all' => 'Save entries to all sites enabled for this section',
-        'siteGroup' => 'Save entries to other sites in the same site group',
-        'language' => 'Save entries to other sites with the same language',
-        'none' => 'Only save entries to the site they were created in',
-        'custom' => 'Let each entry choose which sites it should be saved to',
-    ];
-
 
     public static function actions(): array
     {
@@ -55,32 +46,11 @@ class SectionsVueAdminTableHelper extends VueAdminTableHelper
             }
         }
 
-        $propagationMethodActions = [];
-        foreach (self::$propagationMethods as $key => $value) {
-            $propagationMethodActions[] = VueAdminTableHelper::getActionArray($value, SectionsController::ACTION_UPDATE_ENTRY_TYPES, 'propagationMethod', $key);
-        }
 
         return [
             VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Set Status'), $statusActions),
             VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Entry URI Format'), $entryUriFormatActions, "settings"),
             VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Template'), $templateActions, "settings"),
-            // *** the below actions are NOT site specifc and need thinking about
-            // *** Maybe I have 2x tabs?
-
-            VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Propagation Method'), $propagationMethodActions),
-
-            // SECTION ENTRY TYPE CONFIG
-            VueAdminTableHelper::getActionsArray(
-                \Craft::t('app', 'Entry Type: Title Translation Method'),
-                VueAdminTableHelper::getTranslationMethodActions(SectionsController::ACTION_UPDATE_ENTRY_TYPES, 'titleTranslationMethod')
-            ),
-
-            VueAdminTableHelper::getActionsArray(
-                \Craft::t('app', 'Entry Type: Slug Translation Method'),
-                VueAdminTableHelper::getTranslationMethodActions(SectionsController::ACTION_UPDATE_ENTRY_TYPES, 'slugTranslationMethod')
-            ),
-
-
         ];
     }
 
@@ -110,7 +80,6 @@ class SectionsVueAdminTableHelper extends VueAdminTableHelper
                 'status' => $status,
                 'entry_uri_format' => $sectionSiteSettings->uriFormat ?? "",
                 'template' => $sectionSiteSettings->template ?? "",
-                'propagation_method' => self::$propagationMethods[$section->propagationMethod] ?? "",
             ];
         }
 
@@ -119,13 +88,12 @@ class SectionsVueAdminTableHelper extends VueAdminTableHelper
 
     public static function columns(): array
     {
-        // TODO: There should be a helped method for the below
         return [
-            ['name' => 'title', 'title' => Craft::t('app', 'Name')],
-            ['name' => 'entry_uri_format', 'title' => Craft::t('multie', 'Entry URI Format')],
-            ['name' => 'template', 'title' => Craft::t('multie', 'Template')],
-            ['name' => 'propagation_method', 'title' => Craft::t('multie', 'Propagation Method')],
+            VueAdminTableHelper::createColumn('title', 'Name'),
+            VueAdminTableHelper::createColumn('entry_uri_format', 'Entry URI Format', 'multie'),
+            VueAdminTableHelper::createColumn('template', 'Template', 'multie'),
         ];
+
     }
 
 

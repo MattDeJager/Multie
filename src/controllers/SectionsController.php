@@ -21,6 +21,7 @@ class SectionsController extends Controller
     const ACTION_UPDATE_STATUS = self::PATH . '/update-status';
     const ACTION_UPDATE_ENTRY_TYPES = self::PATH . '/update-entry-types';
     const ACTION_COPY_SETTINGS = self::PATH . '/copy-settings';
+    const ACTION_UPDATE_PROPAGATION_METHOD = self::PATH . '/update-propagation-method';
 
 
     public function actionSiteSettingsIndex(): \yii\web\Response
@@ -59,6 +60,7 @@ class SectionsController extends Controller
 
     public function actionUpdateStatus(): \yii\web\Response
     {
+        /** @var SectionsService $sectionsService */
         $sectionsService = Plugin::getInstance()->section;
 
         $site = $this->getSiteFromRequest();
@@ -97,6 +99,20 @@ class SectionsController extends Controller
         return $this->redirect(self::PATH);
     }
 
+    public function actionUpdatePropagationMethod(): \yii\web\Response
+    {
+        /** @var SectionsService $sectionsService */
+        $sectionsService = Plugin::getInstance()->section;
+
+        $site = $this->getSiteFromRequest();
+        $sectionIds = Craft::$app->request->post("ids");
+        $propagationMethod = Craft::$app->request->post("propagationMethod");
+
+        $sectionsService->updatePropagationMethodForSections($sectionIds, $propagationMethod, $site);
+
+        return $this->redirect(self::PATH);
+
+    }
 
     private function getSiteFromRequest(): Site
     {

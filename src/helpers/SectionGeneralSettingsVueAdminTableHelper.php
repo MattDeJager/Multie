@@ -24,7 +24,7 @@ class SectionGeneralSettingsVueAdminTableHelper extends VueAdminTableHelper
 
         $propagationMethodActions = [];
         foreach (self::$propagationMethods as $key => $value) {
-            $propagationMethodActions[] = VueAdminTableHelper::getActionArray($value, SectionsController::ACTION_UPDATE_ENTRY_TYPES, 'propagationMethod', $key);
+            $propagationMethodActions[] = VueAdminTableHelper::getActionArray($value, SectionsController::ACTION_UPDATE_PROPAGATION_METHOD, 'propagationMethod', $key);
         }
 
         return [

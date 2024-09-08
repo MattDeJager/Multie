@@ -179,10 +179,6 @@ class Plugin extends BasePlugin
                             'label' => 'Fields',
                             'url' => self::HANDLE . '/fields',
                         ],
-//                        'translations' => [
-//                            'label' => 'Translations',
-//                            'url' => self::HANDLE . '/translations',
-//                        ],
                     ],
                 ];
             }

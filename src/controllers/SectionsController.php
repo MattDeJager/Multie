@@ -110,8 +110,7 @@ class SectionsController extends Controller
 
         $sectionsService->updatePropagationMethodForSections($sectionIds, $propagationMethod, $site);
 
-        return $this->redirect(self::PATH);
-
+        return $this->redirect(Craft::$app->getRequest()->getReferrer());
     }
 
     private function getSiteFromRequest(): Site

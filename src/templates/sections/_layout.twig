@@ -2,6 +2,8 @@
 
 {% import '_includes/forms' as forms %}
 
+{% set currentSectionType = craft.app.request.getSegment(3) ?? "all" %}
+
 {% set crumbs = [
     { label: 'Multie'|t('plugin-handle'), url: url('multie') },
     { label: 'Sections'|t('plugin-handle'), url: url('multie') },
@@ -16,15 +18,17 @@
     <nav>
         <ul id="groups">
             <li>
-                <a {% if craft.app.request.getPathInfo() == "multie/sections" %}class="sel"{% endif %} href="{{ url('multie/sections') }}" data-id="0">
-                    {{ "Site Settings "|t('site') }}
+                <a {% if currentSectionType == "all" %}class="sel"{% endif %} href="{{ url('multie/sections') }}" data-id="0">
+                    {{ "All Sections "|t('site') }}
                 </a>
             </li>
-            <li>
-                <a {% if craft.app.request.getPathInfo() == "multie/sections/general" %}class="sel"{% endif %} href="{{ url('multie/sections/general') }}" data-id="0">
-                    {{ "General Settings "|t('site') }}
-                </a>
-            </li>
+            {% for sectionType in sectionTypes %}
+                <li>
+                    <a class="{% if currentSectionType == sectionType %}sel{% endif %}" href="{{ url('multie/sections/'~ sectionType) }}" data-id="{{ sectionType }}">
+                        {{ sectionType|t('site') | capitalize }}
+                    </a>
+                </li>
+            {% endfor %}
         </ul>
     </nav>
 {% endblock %}

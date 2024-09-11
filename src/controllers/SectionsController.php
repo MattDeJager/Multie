@@ -2,6 +2,7 @@
 
 namespace boost\multie\controllers;
 
+use boost\multie\constants\SectionTypes;
 use boost\multie\helpers\SectionGeneralSettingsVueAdminTableHelper;
 use boost\multie\helpers\SectionSiteSettingsVueAdminTableHelper;
 use boost\multie\services\SectionsService;
@@ -24,11 +25,19 @@ class SectionsController extends Controller
     const ACTION_UPDATE_PROPAGATION_METHOD = self::PATH . '/update-propagation-method';
 
 
-    public function actionSiteSettingsIndex(): \yii\web\Response
+    public function actionSiteSettingsIndex(string $type = null): \yii\web\Response
     {
         $this->requireAdmin();
 
-        $sections = Craft::$app->sections->getAllSections();
+
+        // If a type is provided and exists in the typeMap, fetch sections by that type
+        if ($type !== null) {
+            $sections = Craft::$app->sections->getSectionsByType($type);
+        } else {
+            // Fetch all sections if no type is provided
+            $sections = Craft::$app->sections->getAllSections();
+        }
+
 
         $columns = SectionSiteSettingsVueAdminTableHelper::columns();
         $tableData = SectionSiteSettingsVueAdminTableHelper::data($sections);
@@ -38,13 +47,20 @@ class SectionsController extends Controller
             'tableData' => $tableData,
             'actions' => $actions,
             'columns' => $columns,
+            'sectionTypes' => SectionTypes::getSectionTypes(),
         ]);
     }
-    public function actionGeneralSettingsIndex(): \yii\web\Response
+    public function actionGeneralSettingsIndex(string $type = null): \yii\web\Response
     {
         $this->requireAdmin();
 
-        $sections = Craft::$app->sections->getAllSections();
+        // If a type is provided and exists in the typeMap, fetch sections by that type
+        if ($type !== null) {
+            $sections = Craft::$app->sections->getSectionsByType($type);
+        } else {
+            // Fetch all sections if no type is provided
+            $sections = Craft::$app->sections->getAllSections();
+        }
 
         $columns = SectionGeneralSettingsVueAdminTableHelper::columns();
         $tableData = SectionGeneralSettingsVueAdminTableHelper::data($sections);
@@ -54,7 +70,8 @@ class SectionsController extends Controller
             'tableData' => $tableData,
             'actions' => $actions,
             'columns' => $columns,
-            'selected'
+            'selected',
+            'sectionTypes' => SectionTypes::getSectionTypes(),
         ]);
     }
 

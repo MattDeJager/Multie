@@ -1,5 +1,7 @@
 {% extends "multie/sections/_layout.twig" %}
 
+{% set selectedTab = "site" %}
+
 {% set contextMenu %}
     {% if craft.app.getIsMultiSite() %}
         {% include '_elements/sitemenu' %}
@@ -10,9 +12,6 @@
 
 {% endblock %}
 
-{% block content %}
-    <div id="sections-vue-admin-table"></div>
-{% endblock %}
 
 {% js %}
 

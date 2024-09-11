@@ -9,6 +9,11 @@
     { label: 'Sections'|t('plugin-handle'), url: url('multie') },
 ] %}
 
+{% set tabs = {
+    "site": {label: "Site"|t('multie'), url: ""},
+    "general": {label: "General"|t('multie'), url: "sections/general/"~ currentSectionType},
+} %}
+
 {% set showHeader = true %}
 {% set fullPageForm = true %}
 {% set selectedSubnavItem = 'sections' %}
@@ -31,6 +36,10 @@
             {% endfor %}
         </ul>
     </nav>
+{% endblock %}
+
+{% block content %}
+    <div id="sections-vue-admin-table"></div>
 {% endblock %}
 
 {% js %}

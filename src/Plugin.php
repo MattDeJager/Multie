@@ -193,6 +193,7 @@ class Plugin extends BasePlugin
                 $event->rules[self::HANDLE . '/sections'] = self::HANDLE . '/sections/site-settings-index';
                 $event->rules[self::HANDLE . '/sections/<type:(all|channel|single|structure)>'] = self::HANDLE . '/sections/site-settings-index';
                 $event->rules[self::HANDLE . '/sections/general'] = self::HANDLE . '/sections/general-settings-index';
+                $event->rules[self::HANDLE . '/sections/general/<type:(all|channel|single|structure)>'] = self::HANDLE . '/sections/general-settings-index';
                 $event->rules[self::HANDLE . '/fields'] = self::HANDLE . '/fields/index';
                 $event->rules[self::HANDLE . '/fields/<fieldGroupId:\d*>'] = self::HANDLE . '/fields/index';
                 $event->rules[self::HANDLE . '/translations'] = self::HANDLE . '/translations/index';

@@ -13,6 +13,21 @@ use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
 
 class SectionsService
 {
+
+    public function getSectionsByType($type): array
+    {
+        // If a type is provided and exists in the typeMap, fetch sections by that type
+        if ($type !== null && $type != "all") {
+            $sections = Craft::$app->sections->getSectionsByType($type);
+        } else {
+            // Fetch all sections if no type is provided
+            $sections = Craft::$app->sections->getAllSections();
+        }
+
+        return $sections;
+    }
+
+
     public function copySectionSettingsFromSite($settings, $sectionIds, Site $siteToCopy, Site $site): void
     {
         $sectionsService = Craft::$app->sections;

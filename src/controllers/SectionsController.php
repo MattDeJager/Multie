@@ -30,15 +30,10 @@ class SectionsController extends Controller
         $this->requireAdmin();
 
 
-        // If a type is provided and exists in the typeMap, fetch sections by that type
-        if ($type !== null) {
-            $sections = Craft::$app->sections->getSectionsByType($type);
-        } else {
-            // Fetch all sections if no type is provided
-            $sections = Craft::$app->sections->getAllSections();
-        }
+        /** @var SectionsService $sectionsService */
+        $sectionsService = Plugin::getInstance()->section;
 
-
+        $sections = $sectionsService->getSectionsByType($type);
         $columns = SectionSiteSettingsVueAdminTableHelper::columns();
         $tableData = SectionSiteSettingsVueAdminTableHelper::data($sections);
         $actions = SectionSiteSettingsVueAdminTableHelper::actions();
@@ -54,14 +49,10 @@ class SectionsController extends Controller
     {
         $this->requireAdmin();
 
-        // If a type is provided and exists in the typeMap, fetch sections by that type
-        if ($type !== null) {
-            $sections = Craft::$app->sections->getSectionsByType($type);
-        } else {
-            // Fetch all sections if no type is provided
-            $sections = Craft::$app->sections->getAllSections();
-        }
+        /** @var SectionsService $sectionsService */
+        $sectionsService = Plugin::getInstance()->section;
 
+        $sections = $sectionsService->getSectionsByType($type);
         $columns = SectionGeneralSettingsVueAdminTableHelper::columns();
         $tableData = SectionGeneralSettingsVueAdminTableHelper::data($sections);
         $actions = SectionGeneralSettingsVueAdminTableHelper::actions();

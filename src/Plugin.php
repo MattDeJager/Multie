@@ -24,6 +24,7 @@ use yii\base\Event;
 
 // ******************* PRIORIRTY *******************
 // TODO: Sections needs two different views 1. Site Settings 2. General Settings
+// TODO: Create All, Singles, Channels and Structures section filters
 
 /**
  * Shortcuts to practice!!!

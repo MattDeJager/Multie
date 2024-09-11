@@ -106,8 +106,7 @@ class SectionsController extends Controller
 
         $site = $this->getSiteFromRequest();
         $sectionIds = Craft::$app->request->post("ids");
-        $propagationMethod = Craft::$app->request->post("propagationMethod");
-
+        $propagationMethod = json_decode(Craft::$app->request->post("propagationMethod"));
         $sectionsService->updatePropagationMethodForSections($sectionIds, $propagationMethod, $site);
 
         return $this->redirect(Craft::$app->getRequest()->getReferrer());

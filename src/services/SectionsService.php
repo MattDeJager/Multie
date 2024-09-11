@@ -101,11 +101,21 @@ class SectionsService
         });
     }
 
-    public function updatePropagationMethodForSections(mixed $sectionIds, mixed $propagationMethod, Site $site): void
+    public function updatePropagationMethodForSections(array $sectionIds, mixed $propagationMethod, Site $site): void
     {
         $this->processSections($sectionIds, function (Section $section) use ($propagationMethod, $site) {
             $this->updatePropagationMethodForSection($section, $propagationMethod);
         });
+    }
+
+    private function updatePropagationMethodForSection(Section $section, mixed $propagationMethod): void
+    {
+        $section->propagationMethod = $propagationMethod;
+        try {
+            Craft::$app->sections->saveSection($section);
+        } catch (\Throwable $e) {
+            Craft::error("Error saving section: {$e->getMessage()}", __METHOD__);
+        }
     }
 
     private function processSections(array $sectionIds, callable $callback): void
@@ -144,16 +154,6 @@ class SectionsService
             Craft::error("Entry type not found: {$e->getMessage()}", __METHOD__ );
         } catch (\Throwable $e) {
             Craft::error("Error saving entry type: {$e->getMessage()}", __METHOD__ );
-        }
-    }
-
-    private function updatePropagationMethodForSection(Section $section, mixed $propagationMethod): void
-    {
-        $section->propagationMethod = $propagationMethod;
-        try {
-            Craft::$app->sections->saveSection($section);
-        } catch (\Throwable $e) {
-            Craft::error("Error saving section: {$e->getMessage()}", __METHOD__);
         }
     }
 

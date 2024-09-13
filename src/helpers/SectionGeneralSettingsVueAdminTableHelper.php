@@ -2,6 +2,7 @@
 
 namespace boost\multie\helpers;
 
+use boost\multie\constants\SectionTypes;
 use boost\multie\controllers\SectionsController;
 use Craft;
 use craft\helpers\UrlHelper;
@@ -19,7 +20,7 @@ class SectionGeneralSettingsVueAdminTableHelper extends VueAdminTableHelper
     ];
 
 
-    public static function actions(): array
+    public static function actions($type = null): array
     {
 
         $propagationMethodActions = [];
@@ -27,9 +28,7 @@ class SectionGeneralSettingsVueAdminTableHelper extends VueAdminTableHelper
             $propagationMethodActions[] = VueAdminTableHelper::getActionArray($value, SectionsController::ACTION_UPDATE_PROPAGATION_METHOD, 'propagationMethod', $key);
         }
 
-        return [
-            VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Propagation Method'), $propagationMethodActions),
-
+        $actions = [
             // SECTION ENTRY TYPE CONFIG
             VueAdminTableHelper::getActionsArray(
                 \Craft::t('app', 'Entry Type: Title Translation Method'),
@@ -41,6 +40,15 @@ class SectionGeneralSettingsVueAdminTableHelper extends VueAdminTableHelper
                 VueAdminTableHelper::getTranslationMethodActions(SectionsController::ACTION_UPDATE_ENTRY_TYPES, 'slugTranslationMethod')
             ),
         ];
+
+        if ($type !== SectionTypes::SINGLE) {
+            $actions[] = VueAdminTableHelper::getActionsArray(
+                \Craft::t('app', 'Propagation Method'),
+                $propagationMethodActions
+            );
+        }
+
+        return $actions;
     }
 
     public static function data($entries): array

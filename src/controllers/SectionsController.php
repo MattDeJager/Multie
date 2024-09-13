@@ -55,7 +55,7 @@ class SectionsController extends Controller
         $sections = $sectionsService->getSectionsByType($type);
         $columns = SectionGeneralSettingsVueAdminTableHelper::columns();
         $tableData = SectionGeneralSettingsVueAdminTableHelper::data($sections);
-        $actions = SectionGeneralSettingsVueAdminTableHelper::actions();
+        $actions = SectionGeneralSettingsVueAdminTableHelper::actions($type);
 
         return $this->renderTemplate(self::PATH . '/general-settings.twig', [
             'tableData' => $tableData,

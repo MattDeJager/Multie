@@ -23,8 +23,8 @@ use yii\base\Event;
 
 
 // ******************* PRIORIRTY *******************
-// TODO: Sections needs two different views 1. Site Settings 2. General Settings
-// TODO: Create All, Singles, Channels and Structures section filters
+// TODO: Singles do not have a propagation method -> so we want to hide this option if the section type is single
+// TODO: Add permissions to the plugin
 
 /**
  * Shortcuts to practice!!!

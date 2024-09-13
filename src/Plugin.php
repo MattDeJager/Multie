@@ -13,17 +13,13 @@ use craft\web\twig\variables\Cp;
 use yii\base\Event;
 
 // TODO: Continue working towards adding plugin to marketplace https://craftcms.com/knowledge-base/craft-console-organizations
-// TODO: Translate section Entry Type Title Translation Method & Slug Translation Method
 // TODO: Look into adding bulk translations for category groups
 // TODO: Create new sites based on exisitng/new site configurations
 // TODO: Look into site group translations
 // TODO: Handle custom translation methods
 // TODO: Add search/filter to tables
-// TODO: Work out how to display the section Entry Type Data
-
 
 // ******************* PRIORIRTY *******************
-// TODO: Singles do not have a propagation method -> so we want to hide this option if the section type is single
 // TODO: Add permissions to the plugin
 
 /**

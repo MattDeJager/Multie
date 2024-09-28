@@ -22,7 +22,6 @@ class FieldsController extends Controller
 
     public function actionIndex(int $fieldGroupId = null): \yii\web\Response
     {
-        $this->requireAdmin();
 
         /** @var FieldsService $fieldService */
         $fieldService = Plugin::getInstance()->field;
@@ -45,7 +44,6 @@ class FieldsController extends Controller
 
     public function actionUpdate(): \yii\web\Response
     {
-        $this->requireAdmin();
         $fieldIds = Craft::$app->request->post("ids");
         $fieldConfig = json_decode(Craft::$app->request->getBodyParam('fields'), true);
         $fieldService = Plugin::getInstance()->field;

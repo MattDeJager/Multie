@@ -71,6 +71,8 @@ class SectionsController extends Controller
 
     public function actionUpdateStatus(): \yii\web\Response
     {
+        $this->requirePermission(Plugin::PERMISSION_EDIT_SECTIONS);
+
         /** @var SectionsService $sectionsService */
         $sectionsService = Plugin::getInstance()->section;
 
@@ -85,6 +87,8 @@ class SectionsController extends Controller
 
     public function actionUpdateEntryTypes(): \yii\web\Response
     {
+        $this->requirePermission(Plugin::PERMISSION_EDIT_SECTIONS);
+
         /** @var SectionsService $sectionsService */
         $sectionsService = Plugin::getInstance()->section;
         $sectionIds = Craft::$app->request->post("ids");
@@ -97,6 +101,8 @@ class SectionsController extends Controller
 
     public function actionCopySettings(): \yii\web\Response
     {
+        $this->requirePermission(Plugin::PERMISSION_EDIT_SECTIONS);
+
         /** @var SectionsService $sectionsService */
         $sectionsService = Plugin::getInstance()->section;
 
@@ -112,6 +118,8 @@ class SectionsController extends Controller
 
     public function actionUpdatePropagationMethod(): \yii\web\Response
     {
+        $this->requirePermission(Plugin::PERMISSION_EDIT_SECTIONS);
+
         /** @var SectionsService $sectionsService */
         $sectionsService = Plugin::getInstance()->section;
 

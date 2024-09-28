@@ -27,8 +27,6 @@ class SectionsController extends Controller
 
     public function actionSiteSettingsIndex(string $type = null): \yii\web\Response
     {
-        $this->requireAdmin();
-
 
         /** @var SectionsService $sectionsService */
         $sectionsService = Plugin::getInstance()->section;
@@ -47,7 +45,6 @@ class SectionsController extends Controller
     }
     public function actionGeneralSettingsIndex(string $type = null): \yii\web\Response
     {
-        $this->requireAdmin();
 
         /** @var SectionsService $sectionsService */
         $sectionsService = Plugin::getInstance()->section;

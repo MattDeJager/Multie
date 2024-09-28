@@ -7,15 +7,12 @@ use Craft;
 use craft\base\Model;
 use craft\base\Plugin as BasePlugin;
 use craft\events\RegisterUrlRulesEvent;
+use craft\events\RegisterUserPermissionsEvent;
+use craft\services\UserPermissions;
 use craft\web\UrlManager;
 use craft\events\RegisterCpNavItemsEvent;
 use craft\web\twig\variables\Cp;
 use yii\base\Event;
-
-// TODO: Continue working towards adding plugin to marketplace https://craftcms.com/knowledge-base/craft-console-organizations
-// TODO: Translate section Entry Type Title Translation Method & Slug Translation Method
-// TODO: Look into adding bulk translations for category groups
-// TODO: Create new sites based on exisitng/new site configurations
 
 /**
  * Multie plugin
@@ -30,11 +27,13 @@ class Plugin extends BasePlugin
 {
     const HANDLE = 'multie';
 
+    const PERMISSION_MANAGE_SETTINGS = 'accessPlugin-'.self::HANDLE;
+    const PERMISSION_EDIT_SECTIONS = self::HANDLE . '-editSections';
+    const PERMISSION_EDIT_FIELDS = self::HANDLE . '-editFields';
+
     /** @var string The plugin’s schema version number */
     public string $schemaVersion = '1.0.0';
 
-    /** @var bool Whether the plugin has a settings page in the control panel */
-    public bool $hasCpSettings = true;
 
     /**
      * Returns the base config that the plugin should be instantiated with.
@@ -115,28 +114,6 @@ class Plugin extends BasePlugin
         ]);
     }
 
-    /**
-     * Creates and returns the model used to store the plugin’s settings.
-     *
-     * @return Model|null
-     */
-    protected function createSettingsModel(): ?Model
-    {
-        return Craft::createObject(Settings::class);
-    }
-
-    /**
-     * Returns the rendered settings HTML, which will be inserted into the content block on the settings page.
-     *
-     * @return string|null The rendered settings HTML
-     */
-    protected function settingsHtml(): ?string
-    {
-        return Craft::$app->view->renderTemplate(self::HANDLE . '/_settings.twig', [
-            'plugin' => $this,
-            'settings' => $this->getSettings(),
-        ]);
-    }
 
     private function attachEventHandlers(): void
     {
@@ -145,37 +122,67 @@ class Plugin extends BasePlugin
             Cp::class,
             Cp::EVENT_REGISTER_CP_NAV_ITEMS,
             function(RegisterCpNavItemsEvent $event) {
-                $event->navItems[] = [
-                    'url' => self::HANDLE . '/sections',
-                    'label' => 'Multie',
-                    'icon' => '@boost/multie/icon-mask.svg',
-                    'subnav' => [
-                        'sections' => [
-                            'label' => 'Sections',
-                            'url' => self::HANDLE . '/sections',
+                if (Craft::$app->getUser()->checkPermission(self::PERMISSION_MANAGE_SETTINGS)) {
+                    $event->navItems[] = [
+                        'url' => self::HANDLE . '/sections',
+                        'label' => 'Multie',
+                        'icon' => '@boost/multie/icon-mask.svg',
+                        'subnav' => [
+                            'sections' => [
+                                'label' => 'Sections',
+                                'url' => self::HANDLE . '/sections',
+                            ],
+                            'fields' => [
+                                'label' => 'Fields',
+                                'url' => self::HANDLE . '/fields',
+                            ],
                         ],
-                        'fields' => [
-                            'label' => 'Fields',
-                            'url' => self::HANDLE . '/fields',
-                        ],
-//                        'translations' => [
-//                            'label' => 'Translations',
-//                            'url' => self::HANDLE . '/translations',
-//                        ],
-                    ],
-                ];
+                    ];
+
+                }
             }
         );
-        
-        // ROUTES
+
+
+        if (Craft::$app->getRequest()->getIsCpRequest()) {
+            // ROUTES
+            Event::on(
+                UrlManager::class,
+                UrlManager::EVENT_REGISTER_CP_URL_RULES,
+                function (RegisterUrlRulesEvent $event) {
+                    $event->rules[self::HANDLE . '/sections'] = self::HANDLE . '/sections/site-settings-index';
+                    $event->rules[self::HANDLE . '/sections/<type:(all|channel|single|structure)>'] = self::HANDLE . '/sections/site-settings-index';
+                    $event->rules[self::HANDLE . '/sections/general'] = self::HANDLE . '/sections/general-settings-index';
+                    $event->rules[self::HANDLE . '/sections/general/<type:(all|channel|single|structure)>'] = self::HANDLE . '/sections/general-settings-index';
+                    $event->rules[self::HANDLE . '/fields'] = self::HANDLE . '/fields/index';
+                    $event->rules[self::HANDLE . '/fields/<fieldGroupId:\d*>'] = self::HANDLE . '/fields/index';
+                    $event->rules[self::HANDLE . '/translations'] = self::HANDLE . '/translations/index';
+                }
+            );
+        }
+
+
+        // PERMISSIONS
         Event::on(
-            UrlManager::class,
-            UrlManager::EVENT_REGISTER_CP_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
-                $event->rules[self::HANDLE . '/sections'] = self::HANDLE . '/sections/index';
-                $event->rules[self::HANDLE . '/fields'] = self::HANDLE . '/fields/index';
-                $event->rules[self::HANDLE . '/fields/<fieldGroupId:\d*>'] = self::HANDLE . '/fields/index';
-                $event->rules[self::HANDLE . '/translations'] = self::HANDLE . '/translations/index';
+            UserPermissions::class,
+            UserPermissions::EVENT_REGISTER_PERMISSIONS,
+            function (RegisterUserPermissionsEvent $event) {
+                $event->permissions[] = [
+                    'heading' => 'Multie',
+                    'permissions' => [
+                        self::PERMISSION_MANAGE_SETTINGS => [
+                            'label' => \Craft::t('app','Manage Multie settings'),
+                            'nested' => [
+                                self::PERMISSION_EDIT_FIELDS => [
+                                    'label' => \Craft::t('app','Bulk edit fields'),
+                                ],
+                                self::PERMISSION_EDIT_SECTIONS => [
+                                    'label' => \Craft::t('app','Bulk edit sections'),
+                                ],
+                            ]
+                        ],
+                    ],
+                ];
             }
         );
 

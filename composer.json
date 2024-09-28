@@ -2,7 +2,15 @@
     "name": "boost/craft-multie",
     "description": "Simple craft multi-site management tools.",
     "type": "craft-plugin",
+    "version": "1.0.0",
     "license": "proprietary",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "multie"
+    ],
     "support": {
         "email": "matthewdejager5@gmail.com",
         "issues": "https://github.com/git@github.com:mattdejager/craft-multie.git/issues?state=open",
@@ -12,7 +20,7 @@
     },
     "require": {
         "php": ">=8.0.2",
-        "craftcms/cms": "^4.6.0"
+        "craftcms/cms": "^4.0.0"
     },
     "require-dev": {
         "craftcms/ecs": "dev-main",

@@ -1,0 +1,65 @@
+{% extends "multie/_layouts/index.twig" %}
+
+{% import '_includes/forms' as forms %}
+
+{% set currentSectionType = craft.app.request.getQueryParam('type') ?? "all" %}
+
+{% set crumbs = [
+    { label: 'Multie'|t('plugin-handle'), url: url('multie') },
+    { label: 'Sections'|t('plugin-handle'), url: url('multie') },
+] %}
+
+{% set tabs = {
+    "site": {label: "Site"|t('multie'), url: url('multie/sections', {type: currentSectionType})},
+    "general": {label: "General"|t('multie'), url: url('multie/sections/general', {type: currentSectionType})},
+} %}
+
+
+{% set showHeader = true %}
+{% set fullPageForm = true %}
+{% set selectedSubnavItem = 'sections' %}
+{% set title = "Multie Site Manager" %}
+
+{% block sidebar %}
+    <nav>
+        <ul id="groups">
+            <li>
+                <a {% if currentSectionType == "all" %}class="sel"{% endif %} href="{{ url(craft.app.request.getUrl(), {type: 'all'}) }}" data-id="0">
+                    {{ "All Sections "|t('site') }}
+                </a>
+            </li>
+            {% for sectionType in sectionTypes %}
+                <li>
+                    <a class="{% if currentSectionType == sectionType %}sel{% endif %}" href="{{ url(craft.app.request.getUrl(), {type: sectionType}) }}" data-id="{{ sectionType }}">
+                        {{ sectionType|t('site') | capitalize }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div id="sections-vue-admin-table"></div>
+{% endblock %}
+
+{% js %}
+
+    var columns = {{ columns | json_encode | raw }};
+
+    var actions = {{ actions | json_encode | raw }};
+
+    new Craft.VueAdminTable({
+
+    actions: actions,
+    columns: columns,
+    container: "#sections-vue-admin-table",
+    emptyMessage: Craft.t("plugin-handle", "No sections exist yet."),
+    reorderAction: "",
+    tableData: {{ tableData | json_encode | raw }},
+    allowMultipleSelections: true,
+    checkboxes: true
+    });
+
+{% endjs %}
+

@@ -2,8 +2,17 @@
 
 namespace boost\multie\helpers;
 
-class VueAdminTableHelper
+use Craft;
+
+abstract class VueAdminTableHelper implements VueAdminTableHelperInterface
 {
+    protected static function createColumn(string $name, string $titleKey, string $translationCategory = 'app'): array
+    {
+        return [
+            'name' => $name,
+            'title' => Craft::t($translationCategory, $titleKey),
+        ];
+    }
 
     public static function getActionArray(string $label, string $action, string $param, $values, string $status = ""): array
     {
@@ -13,6 +22,28 @@ class VueAdminTableHelper
             'param' => $param,
             'value' => json_encode($values),
             'status' => $status,
+        ];
+    }
+
+    public static function getActionsArray(string $label, array $actions, string $icon = null): array
+    {
+        $actionArr = [
+            'label' => \Craft::t('app', $label),
+            'actions' => $actions,
+        ];
+
+        $icon && $actionArr['icon'] = $icon;
+
+        return $actionArr;
+    }
+
+    public static function getTranslationMethodActions(string $action, $handle): array
+    {
+        return [
+            VueAdminTableHelper::getActionArray(\Craft::t('app', 'Not translatable'), $action, 'fields', [['handle' => $handle, 'value' => 'none']]),
+            VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each site'), $action, 'fields', [['handle' => $handle, 'value' => 'site']]),
+            VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each site group'), $action, 'fields', [['handle' => $handle, 'value' => 'siteGroup']]),
+            VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each language'), $action, 'fields', [['handle' => $handle, 'value' => 'language']]),
         ];
     }
 

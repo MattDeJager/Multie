@@ -23,11 +23,6 @@ use yii\base\Event;
 // TODO: You should be able to click a sections entry type to view a table of all the entry types for that section -
 // then you should be able to bulk edit those entry types
 
-
-// ******************* PRIORIRTY *******************
-// TODO: When I update a sections general settings, we need to redirect back to that page/section
-// TODO: Show N/A when a section does not have a propagation method
-
 /**
  * Shortcuts to practice!!!
  * - Go To Declaration: ctrl + B

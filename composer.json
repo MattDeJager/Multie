@@ -2,6 +2,7 @@
     "name": "boost/craft-multie",
     "description": "Simple craft multi-site management tools.",
     "type": "craft-plugin",
+    "version": "1.0.0",
     "license": "proprietary",
     "support": {
         "email": "matthewdejager5@gmail.com",

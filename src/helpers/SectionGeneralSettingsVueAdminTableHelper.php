@@ -31,12 +31,12 @@ class SectionGeneralSettingsVueAdminTableHelper extends VueAdminTableHelper
         $actions = [
             // SECTION ENTRY TYPE CONFIG
             VueAdminTableHelper::getActionsArray(
-                \Craft::t('app', 'Entry Type: Title Translation Method'),
+                \Craft::t('app', 'Entry Types: Title Translation Method'),
                 VueAdminTableHelper::getTranslationMethodActions(SectionsController::ACTION_UPDATE_ENTRY_TYPES, 'titleTranslationMethod')
             ),
 
             VueAdminTableHelper::getActionsArray(
-                \Craft::t('app', 'Entry Type: Slug Translation Method'),
+                \Craft::t('app', 'Entry Types: Slug Translation Method'),
                 VueAdminTableHelper::getTranslationMethodActions(SectionsController::ACTION_UPDATE_ENTRY_TYPES, 'slugTranslationMethod')
             ),
         ];

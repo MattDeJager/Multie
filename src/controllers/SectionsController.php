@@ -82,7 +82,7 @@ class SectionsController extends Controller
 
         $sectionsService->updateSectionsStatusForSite($sectionIds, $status, $site);
 
-        return $this->redirect('multie/sections');
+        return $this->redirect(Plugin::HANDLE . '/sections');
     }
 
     public function actionUpdateEntryTypes(): \yii\web\Response
@@ -96,7 +96,7 @@ class SectionsController extends Controller
 
         $sectionsService->updateAllEntryTypesForSections($sectionIds, $fields);
 
-        return $this->redirect(self::PATH);
+        return $this->redirect(Craft::$app->getRequest()->getReferrer());
     }
 
     public function actionCopySettings(): \yii\web\Response
@@ -113,7 +113,7 @@ class SectionsController extends Controller
 
         $sectionsService->copySectionSettingsFromSite($config['settings'], $sectionIds, $siteToCopy, $site);
 
-        return $this->redirect(self::PATH);
+        return $this->redirect(Craft::$app->getRequest()->getReferrer());
     }
 
     public function actionUpdatePropagationMethod(): \yii\web\Response

@@ -20,10 +20,13 @@ use yii\base\Event;
 // TODO: Look into site group translations
 // TODO: Handle custom translation methods
 // TODO: Add search/filter to tables
+// TODO: You should be able to click a sections entry type to view a table of all the entry types for that section -
+// then you should be able to bulk edit those entry types
+
 
 // ******************* PRIORIRTY *******************
-// TODO: Add permissions to the plugin and test
-
+// TODO: When I update a sections general settings, we need to redirect back to that page/section
+// TODO: Show N/A when a section does not have a propagation method
 
 /**
  * Shortcuts to practice!!!

@@ -34,10 +34,14 @@ class FieldsController extends Controller
 
         $field = Craft::$app->fields->getFieldById(1);
 
+        $actions = Craft::$app->user->checkPermission(Plugin::PERMISSION_EDIT_FIELDS) ?
+            FieldsVueAdminTableHelper::actions() :
+            false;
+
         return $this->renderTemplate('multie/fields/index.twig', [
             "field" => $field,
             "fieldGroups" => $fieldGroups,
-            "actions" => FieldsVueAdminTableHelper::actions($fieldGroup),
+            "actions" => $actions,
             "tableData" => FieldsVueAdminTableHelper::data($fields),
         ]);
     }

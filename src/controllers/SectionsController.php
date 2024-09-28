@@ -34,7 +34,9 @@ class SectionsController extends Controller
         $sections = $sectionsService->getSectionsByType($type);
         $columns = SectionSiteSettingsVueAdminTableHelper::columns();
         $tableData = SectionSiteSettingsVueAdminTableHelper::data($sections);
-        $actions = SectionSiteSettingsVueAdminTableHelper::actions();
+        $actions = Craft::$app->user->checkPermission(Plugin::PERMISSION_EDIT_SECTIONS) ?
+            SectionSiteSettingsVueAdminTableHelper::actions() :
+            false;
 
         return $this->renderTemplate(self::PATH . '/site-settings.twig', [
             'tableData' => $tableData,
@@ -43,6 +45,7 @@ class SectionsController extends Controller
             'sectionTypes' => SectionTypes::getSectionTypes(),
         ]);
     }
+
     public function actionGeneralSettingsIndex(string $type = null): \yii\web\Response
     {
 
@@ -52,7 +55,10 @@ class SectionsController extends Controller
         $sections = $sectionsService->getSectionsByType($type);
         $columns = SectionGeneralSettingsVueAdminTableHelper::columns();
         $tableData = SectionGeneralSettingsVueAdminTableHelper::data($sections);
-        $actions = SectionGeneralSettingsVueAdminTableHelper::actions($type);
+
+        $actions = Craft::$app->user->checkPermission(Plugin::PERMISSION_EDIT_SECTIONS) ?
+            SectionGeneralSettingsVueAdminTableHelper::actions($type) :
+            [];
 
         return $this->renderTemplate(self::PATH . '/general-settings.twig', [
             'tableData' => $tableData,

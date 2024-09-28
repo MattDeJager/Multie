@@ -51,9 +51,9 @@ class Plugin extends BasePlugin
 {
     const HANDLE = 'multie';
 
-    const PERMISSION_MANAGE_SETTINGS = self::HANDLE . ':settings';
-    const PERMISSION_EDIT_SECTIONS = self::HANDLE . ':editSections';
-    const PERMISSION_EDIT_FIELDS = self::HANDLE . ':editFields';
+    const PERMISSION_MANAGE_SETTINGS = 'accessPlugin-'.self::HANDLE;
+    const PERMISSION_EDIT_SECTIONS = self::HANDLE . '-editSections';
+    const PERMISSION_EDIT_FIELDS = self::HANDLE . '-editFields';
 
     /** @var string The plugin’s schema version number */
     public string $schemaVersion = '1.0.0';
@@ -166,21 +166,25 @@ class Plugin extends BasePlugin
                 }
             }
         );
-        
-        // ROUTES
-        Event::on(
-            UrlManager::class,
-            UrlManager::EVENT_REGISTER_CP_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
-                $event->rules[self::HANDLE . '/sections'] = self::HANDLE . '/sections/site-settings-index';
-                $event->rules[self::HANDLE . '/sections/<type:(all|channel|single|structure)>'] = self::HANDLE . '/sections/site-settings-index';
-                $event->rules[self::HANDLE . '/sections/general'] = self::HANDLE . '/sections/general-settings-index';
-                $event->rules[self::HANDLE . '/sections/general/<type:(all|channel|single|structure)>'] = self::HANDLE . '/sections/general-settings-index';
-                $event->rules[self::HANDLE . '/fields'] = self::HANDLE . '/fields/index';
-                $event->rules[self::HANDLE . '/fields/<fieldGroupId:\d*>'] = self::HANDLE . '/fields/index';
-                $event->rules[self::HANDLE . '/translations'] = self::HANDLE . '/translations/index';
-            }
-        );
+
+
+        if (Craft::$app->getRequest()->getIsCpRequest()) {
+            // ROUTES
+            Event::on(
+                UrlManager::class,
+                UrlManager::EVENT_REGISTER_CP_URL_RULES,
+                function (RegisterUrlRulesEvent $event) {
+                    $event->rules[self::HANDLE . '/sections'] = self::HANDLE . '/sections/site-settings-index';
+                    $event->rules[self::HANDLE . '/sections/<type:(all|channel|single|structure)>'] = self::HANDLE . '/sections/site-settings-index';
+                    $event->rules[self::HANDLE . '/sections/general'] = self::HANDLE . '/sections/general-settings-index';
+                    $event->rules[self::HANDLE . '/sections/general/<type:(all|channel|single|structure)>'] = self::HANDLE . '/sections/general-settings-index';
+                    $event->rules[self::HANDLE . '/fields'] = self::HANDLE . '/fields/index';
+                    $event->rules[self::HANDLE . '/fields/<fieldGroupId:\d*>'] = self::HANDLE . '/fields/index';
+                    $event->rules[self::HANDLE . '/translations'] = self::HANDLE . '/translations/index';
+                }
+            );
+        }
+
 
         // PERMISSIONS
         Event::on(

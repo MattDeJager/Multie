@@ -4,6 +4,13 @@
     "type": "craft-plugin",
     "version": "1.0.0",
     "license": "proprietary",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "multie"
+    ],
     "support": {
         "email": "matthewdejager5@gmail.com",
         "issues": "https://github.com/git@github.com:mattdejager/craft-multie.git/issues?state=open",

@@ -14,28 +14,6 @@ use craft\events\RegisterCpNavItemsEvent;
 use craft\web\twig\variables\Cp;
 use yii\base\Event;
 
-// TODO: Continue working towards adding plugin to marketplace https://craftcms.com/knowledge-base/craft-console-organizations
-// TODO: Look into adding bulk translations for category groups
-// TODO: Create new sites based on exisitng/new site configurations
-// TODO: Look into site group translations
-// TODO: Handle custom translation methods
-// TODO: Add search/filter to tables
-// TODO: You should be able to click a sections entry type to view a table of all the entry types for that section -
-// then you should be able to bulk edit those entry types
-
-/**
- * Shortcuts to practice!!!
- * - Go To Declaration: ctrl + B
- * - Next Tab: alt + right
- * - Previous Tab: alt + left
- * - Recent Usages: ctrl + shift + E
- * - Global Search: shift + shift
- * - File Strucutre: ctrl + 0
- * -
- *
- */
-
-
 /**
  * Multie plugin
  *

@@ -33,7 +33,7 @@ class FieldsController extends Controller
         $fields = $fieldService->getFieldsInGroup($fieldGroup);
 
         $actions = Craft::$app->user->checkPermission(Plugin::PERMISSION_EDIT_FIELDS) ?
-            FieldsVueAdminTableHelper::actions() :
+            FieldsVueAdminTableHelper::actions($fieldGroup) :
             false;
 
         return $this->renderTemplate('multie/fields/index.twig', [

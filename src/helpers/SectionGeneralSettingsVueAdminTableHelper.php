@@ -55,16 +55,21 @@ class SectionGeneralSettingsVueAdminTableHelper extends VueAdminTableHelper
     {
 
         $tableData = [];
-
         /** @var Section $section */
         foreach ($entries as $section) {
+
+            $propagationMethod = self::$propagationMethods[$section->propagationMethod] ?? "";
+
+            if ($section->type == SectionTypes::SINGLE) {
+                $propagationMethod = "-";
+            }
 
             $tableData[] = [
                 'id' => $section->id,
                 'title' => "<a class='cell-bold' href='/admin/settings/sections/" . $section->id . "'>" . $section->name . "</a>",
                 'url' => UrlHelper::url('multie/sections/edit/' . $section->id),
                 'name' => htmlspecialchars(Craft::t('site', $section->name)),
-                'propagation_method' => self::$propagationMethods[$section->propagationMethod] ?? "",
+                'propagation_method' => $propagationMethod
             ];
         }
 

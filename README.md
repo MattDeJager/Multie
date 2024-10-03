@@ -7,6 +7,7 @@ Multie is a Craft CMS plugin to help manage multi-site configurations. The plugi
 - Bulk enable/disable sections on a per site basis
 - Bulk update section settings on a per site basis
 - Bulk translations of section entry types
+- Bulk update section Entry Type settings on a per site basis
 - Bulk translations of fields
 - Quickly create new sites based on existing/new site configurations
 

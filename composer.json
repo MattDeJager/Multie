@@ -13,10 +13,10 @@
     ],
     "support": {
         "email": "matthewdejager5@gmail.com",
-        "issues": "https://github.com/git@github.com:mattdejager/craft-multie.git/issues?state=open",
-        "source": "https://github.com/git@github.com:mattdejager/craft-multie.git",
-        "docs": "https://github.com/git@github.com:mattdejager/craft-multie.git",
-        "rss": "https://github.com/git@github.com:mattdejager/craft-multie.git/releases.atom"
+        "issues": "https://github.com/MattDeJager/Multie/issues?state=open",
+        "source": "https://github.com/MattDeJager/Multie",
+        "docs": "https://github.com/MattDeJager/Multie",
+        "rss": "https://github.com/MattDeJager/Multie/releases.atom"
     },
     "require": {
         "php": ">=8.0.2",
@@ -35,7 +35,7 @@
         "handle": "multie",
         "name": "Multie",
         "developer": "Boost",
-        "documentationUrl": "https://github.com/git@github.com:mattdejager/craft-multie.git"
+        "documentationUrl": "https://github.com/MattDeJager/Multie"
     },
     "scripts": {
         "check-cs": "ecs check --ansi",

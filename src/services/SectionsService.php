@@ -44,6 +44,11 @@ class SectionsService
 
             $siteSettings = $sectionSiteSettings[$site->id] ?? new Section_SiteSettings();
             foreach ($settings as $setting) {
+
+                if ($setting == 'template' && $siteSettings->uriFormat == null) {
+                    $siteSettings->uriFormat = $section->handle . "/{slug}";
+                }
+
                 $siteSettings[$setting] = $siteToCopySettings[$setting];
             }
 

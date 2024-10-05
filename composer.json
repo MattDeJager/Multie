@@ -19,7 +19,7 @@
         "rss": "https://github.com/MattDeJager/Multie/releases.atom"
     },
     "require": {
-        "php": ">=8.0.2",
+        "php": ">=7.3",
         "craftcms/cms": "^3.0.0||^4.0.0"
     },
     "require-dev": {

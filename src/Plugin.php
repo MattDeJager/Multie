@@ -31,9 +31,6 @@ class Plugin extends BasePlugin
     const PERMISSION_EDIT_SECTIONS = self::HANDLE . '-editSections';
     const PERMISSION_EDIT_FIELDS = self::HANDLE . '-editFields';
 
-    /** @var string The plugin’s schema version number */
-    public string $schemaVersion = '1.1.2';
-
 
     /**
      * Returns the base config that the plugin should be instantiated with.

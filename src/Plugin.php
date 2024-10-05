@@ -32,7 +32,7 @@ class Plugin extends BasePlugin
     const PERMISSION_EDIT_FIELDS = self::HANDLE . '-editFields';
 
     /** @var string The plugin’s schema version number */
-    public string $schemaVersion = '1.0.0';
+    public string $schemaVersion = '1.1.2';
 
 
     /**

@@ -97,10 +97,15 @@ class Plugin extends BasePlugin
     {
         parent::init();
 
-        // Defer most setup tasks until Craft is fully initialized
-        Craft::$app->onInit(function() {
+        // Defer setup tasks until Craft is fully initialized
+        if (version_compare(Craft::$app->getVersion(), '4.0.0', '>=')) {
+            // Craft 4 and above
+            Craft::$app->onInit(function() {
+                $this->attachEventHandlers();
+            });
+        } else {
             $this->attachEventHandlers();
-        });
+        }
 
         // REGISTER SERVICES
         $this->setComponents([

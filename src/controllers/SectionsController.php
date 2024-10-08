@@ -31,6 +31,8 @@ class SectionsController extends Controller
         /** @var SectionsService $sectionsService */
         $sectionsService = Plugin::getInstance()->section;
 
+        $selectedSite = $this->getSiteFromRequest();
+
         $sections = $sectionsService->getSectionsByType($type);
         $columns = SectionSiteSettingsVueAdminTableHelper::columns();
         $tableData = SectionSiteSettingsVueAdminTableHelper::data($sections);
@@ -43,11 +45,14 @@ class SectionsController extends Controller
             'actions' => $actions,
             'columns' => $columns,
             'sectionTypes' => SectionTypes::getSectionTypes(),
+            'site' => $selectedSite,
         ]);
     }
 
     public function actionGeneralSettingsIndex(string $type = null): \yii\web\Response
     {
+
+        $selectedSite = $this->getSiteFromRequest();
 
         /** @var SectionsService $sectionsService */
         $sectionsService = Plugin::getInstance()->section;
@@ -66,6 +71,7 @@ class SectionsController extends Controller
             'columns' => $columns,
             'selected',
             'sectionTypes' => SectionTypes::getSectionTypes(),
+            'site' => $selectedSite,
         ]);
     }
 
@@ -82,7 +88,7 @@ class SectionsController extends Controller
 
         $sectionsService->updateSectionsStatusForSite($sectionIds, $status, $site);
 
-        return $this->redirect(Plugin::HANDLE . '/sections');
+        return $this->redirect(Craft::$app->getRequest()->getReferrer());
     }
 
     public function actionUpdateEntryTypes(): \yii\web\Response

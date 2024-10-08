@@ -1,34 +1,19 @@
 {% extends "multie/sections/_layout.twig" %}
 
 {% set selectedTab = "site" %}
+{% set site = site ?? null %}
 
-{% set contextMenu %}
+{% block contextMenu %}
     {% if craft.app.getIsMultiSite() %}
-        {% include '_elements/sitemenu' %}
+        {% include "_elements/sitemenu" with {
+            selectedSiteId: site.id,
+            urlFormat: "multie/sections?site={handle}"}
+        %}
     {% endif %}
-{% endset %}
+{% endblock %}
 
 {% block actionButton %}
 
 {% endblock %}
 
-
-{% js %}
-
-// When changing the site select, navigate to the sections index for that site.
-var $siteMenuBtn = $("#header .sitemenubtn:first");
-
-if ($siteMenuBtn.length) {
-    var siteMenu = $siteMenuBtn.menubtn().data("menubtn").menu;
-
-    siteMenu.on("optionselect", function(ev) {
-        siteMenu.$options.removeClass("sel");
-        var $option = $(ev.selectedOption).addClass("sel");
-        $siteMenuBtn.html($option.html());
-        Craft.cp.setSiteId($option.data("site-id"));
-
-        location.reload();
-    });
-}
-{% endjs %}
 

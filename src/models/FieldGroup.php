@@ -2,6 +2,7 @@
 
 namespace boost\multie\models;
 
+use Craft;
 use craft\base\Model;
 use craft\records\FieldGroup as FieldGroupRecord;
 use craft\validators\UniqueValidator;

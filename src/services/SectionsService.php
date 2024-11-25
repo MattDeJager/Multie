@@ -18,7 +18,7 @@ class SectionsService
 
     public function __construct()
     {
-        $this->sectionsService = Craft::$app->sections;
+        $this->sectionsService = Craft::$app->entries;
     }
 
 

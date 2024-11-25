@@ -13,15 +13,23 @@ use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
 
 class SectionsService
 {
+    
+    private mixed $sectionsService;
+
+    public function __construct()
+    {
+        $this->sectionsService = Craft::$app->sections;
+    }
+
 
     public function getSectionsByType($type): array
     {
         // If a type is provided and exists in the typeMap, fetch sections by that type
         if ($type !== null && $type != "all") {
-            $sections = Craft::$app->sections->getSectionsByType($type);
+            $sections = $this->sectionsService->getSectionsByType($type);
         } else {
             // Fetch all sections if no type is provided
-            $sections = Craft::$app->sections->getAllSections();
+            $sections = $this->sectionsService->getAllSections();
         }
 
         return $sections;
@@ -30,7 +38,7 @@ class SectionsService
 
     public function copySectionSettingsFromSite($settings, $sectionIds, Site $siteToCopy, Site $site): void
     {
-        $sectionsService = Craft::$app->sections;
+        $sectionsService = $this->sectionsService;
 
         $this->processSections($sectionIds, function (Section $section) use ($settings, $siteToCopy, $site, $sectionsService) {
 
@@ -84,7 +92,7 @@ class SectionsService
         if ($siteSettings) {
             unset($sectionSiteSettings[$site->id]);
             $section->setSiteSettings($sectionSiteSettings);
-            Craft::$app->sections->saveSection($section);
+            $this->sectionsService->saveSection($section);
         }
 
     }
@@ -103,7 +111,7 @@ class SectionsService
 
         // Save the section
         try {
-            Craft::$app->sections->saveSection($section);
+            $this->sectionsService->saveSection($section);
         } catch (\Throwable $e) {
             Craft::error("Error saving section: {$e->getMessage()}", __METHOD__);
         }
@@ -127,7 +135,7 @@ class SectionsService
     {
         $section->propagationMethod = $propagationMethod;
         try {
-            Craft::$app->sections->saveSection($section);
+            $this->sectionsService->saveSection($section);
         } catch (\Throwable $e) {
             Craft::error("Error saving section: {$e->getMessage()}", __METHOD__);
         }
@@ -136,7 +144,7 @@ class SectionsService
     private function processSections(array $sectionIds, callable $callback): void
     {
         foreach ($sectionIds as $section) {
-            $section = Craft::$app->sections->getSectionById($section);
+            $section = $this->sectionsService->getSectionById($section);
             if (!$section) {
                 Craft::error("Section not found: {$section}", __METHOD__);
                 continue;
@@ -164,7 +172,7 @@ class SectionsService
     private function saveEntryType(EntryType $entryType): void
     {
         try {
-            Craft::$app->sections->saveEntryType($entryType);
+            $this->sectionsService->saveEntryType($entryType);
         } catch (EntryTypeNotFoundException $e) {
             Craft::error("Entry type not found: {$e->getMessage()}", __METHOD__ );
         } catch (\Throwable $e) {

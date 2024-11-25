@@ -7,6 +7,9 @@ use boost\multie\controllers\SectionsController;
 use boost\multie\models\FieldGroup;
 use boost\multie\services\FieldGroupService;
 use Craft;
+use craft\base\FieldInterface;
+use craft\fields\MissingField;
+use craft\helpers\Cp;
 use craft\helpers\UrlHelper;
 
 class FieldsVueAdminTableHelper extends VueAdminTableHelper
@@ -57,20 +60,19 @@ class FieldsVueAdminTableHelper extends VueAdminTableHelper
     public static function data($entries): array
     {
 
-
-        $tableData = array_map(function ($field) {
+        $tableData = array_map(function (FieldInterface $field) {
             return [
                 'id' => $field->id,
                 'title' => Craft::t('site', $field->name),
-                'translatable' => $field->getIsTranslatable() ? ($field->getTranslationDescription() ?? Craft::t('app', 'This field is translatable.')) : false,
+                'translatable' => $field->getIsTranslatable(null) ? ($field->getTranslationDescription(null) ?? Craft::t('app', 'This field is translatable.')) : false,
                 'searchable' => $field->searchable ? true : false,
                 'url' => UrlHelper::url('settings/fields/edit/' . $field->id),
                 'handle' => $field->handle,
                 'type' => [
-                    'isMissing' => false,
-                    'label' => $field->displayName()
+                    'isMissing' => $field instanceof MissingField,
+                    'label' => $field instanceof MissingField ? $field->expectedType : $field->displayName(),
+                    'icon' => Cp::iconSvg($field::icon()),
                 ],
-                'group' => $field->group ? $field->group->name : "<span class=\"error\">" . Craft::t('app', '(Ungrouped)') . "</span>",
             ];
         }, $entries);
 

@@ -29,16 +29,16 @@ class SectionGeneralSettingsVueAdminTableHelper extends VueAdminTableHelper
         }
 
         $actions = [
-            // SECTION ENTRY TYPE CONFIG
-            VueAdminTableHelper::getActionsArray(
-                \Craft::t('app', 'Entry Types: Title Translation Method'),
-                VueAdminTableHelper::getTranslationMethodActions(SectionsController::ACTION_UPDATE_ENTRY_TYPES, 'titleTranslationMethod')
-            ),
-
-            VueAdminTableHelper::getActionsArray(
-                \Craft::t('app', 'Entry Types: Slug Translation Method'),
-                VueAdminTableHelper::getTranslationMethodActions(SectionsController::ACTION_UPDATE_ENTRY_TYPES, 'slugTranslationMethod')
-            ),
+//            // SECTION ENTRY TYPE CONFIG
+//            VueAdminTableHelper::getActionsArray(
+//                \Craft::t('app', 'Entry Types: Title Translation Method'),
+//                VueAdminTableHelper::getTranslationMethodActions(SectionsController::ACTION_UPDATE_ENTRY_TYPES, 'titleTranslationMethod')
+//            ),
+//
+//            VueAdminTableHelper::getActionsArray(
+//                \Craft::t('app', 'Entry Types: Slug Translation Method'),
+//                VueAdminTableHelper::getTranslationMethodActions(SectionsController::ACTION_UPDATE_ENTRY_TYPES, 'slugTranslationMethod')
+//            ),
         ];
 
         if ($type !== SectionTypes::SINGLE) {
@@ -58,7 +58,9 @@ class SectionGeneralSettingsVueAdminTableHelper extends VueAdminTableHelper
         /** @var Section $section */
         foreach ($entries as $section) {
 
-            $propagationMethod = self::$propagationMethods[$section->propagationMethod] ?? "";
+            $sectionPropagationMethod = $section->propagationMethod->value;
+
+            $propagationMethod = self::$propagationMethods[$sectionPropagationMethod] ?? "";
 
             if ($section->type == SectionTypes::SINGLE) {
                 $propagationMethod = "-";

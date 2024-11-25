@@ -1,8 +1,8 @@
 {
     "name": "boost/craft-multie",
-    "description": "Simple craft multi-site management tools.",
+    "description": "Simple multi-site management tools.",
     "type": "craft-plugin",
-    "version": "dev-main",
+    "version": "3.0.0",
     "license": "proprietary",
     "keywords": [
         "craft",

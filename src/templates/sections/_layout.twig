@@ -4,11 +4,6 @@
 
 {% set currentSectionType = craft.app.request.getQueryParam('type') ?? "all" %}
 
-{% set crumbs = [
-    { label: 'Multie'|t('plugin-handle'), url: url('multie') },
-    { label: 'Sections'|t('plugin-handle'), url: url('multie') },
-] %}
-
 {% set tabs = {
     "site": {label: "Site"|t('multie'), url: url('multie/sections', {type: currentSectionType})},
     "general": {label: "General"|t('multie'), url: url('multie/sections/general', {type: currentSectionType})},

@@ -1,5 +1,10 @@
 {% extends "multie/sections/_layout.twig" %}
 
+{% set crumbs = [
+    { label: 'Multie'|t('plugin-handle'), url: url('multie') },
+    { label: 'Sections'|t('plugin-handle'), url: url('multie') },
+] %}
+
 {% set selectedTab = "general" %}
 
 {% block actionButton %}

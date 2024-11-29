@@ -1,9 +1,8 @@
 {% extends "multie/sections/_layout.twig" %}
 
-{# TODO: Fix crumbs URL's #}
 {% set crumbs = [
     { label: 'Multie'|t('plugin-handle'), url: url('multie/sections') },
-    { label: 'Sections'|t('plugin-handle'), url: url('multie/sections') },
+    { label: 'Sections'|t('plugin-handle'), url: url('multie/sections/general') },
 ] %}
 
 {% set selectedTab = "general" %}

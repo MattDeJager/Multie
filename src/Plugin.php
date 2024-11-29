@@ -133,6 +133,10 @@ class Plugin extends BasePlugin
                                 'label' => 'Fields',
                                 'url' => self::HANDLE . '/fields',
                             ],
+                            'entryTypes' => [
+                                'label' => 'Entry Types',
+                                'url' => self::HANDLE . '/entry-types',
+                            ],
                         ],
                     ];
 
@@ -153,6 +157,7 @@ class Plugin extends BasePlugin
                     $event->rules[self::HANDLE . '/sections/general/<type:(all|channel|single|structure)>'] = self::HANDLE . '/sections/general-settings-index';
                     $event->rules[self::HANDLE . '/fields'] = self::HANDLE . '/fields/index';
                     $event->rules[self::HANDLE . '/fields/<fieldGroupId:\d*>'] = self::HANDLE . '/fields/index';
+                    $event->rules[self::HANDLE . '/entry-types'] = self::HANDLE . '/entry-types/index';
                     $event->rules[self::HANDLE . '/translations'] = self::HANDLE . '/translations/index';
                 }
             );

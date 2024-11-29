@@ -1,0 +1,54 @@
+{% extends "multie/_layouts/index.twig" %}
+
+{% import '_includes/forms' as forms %}
+
+{% set crumbs = [
+    { label: 'Multie'|t('plugin-handle'), url: url('multie/sections') },
+    { label: 'Fields'|t('plugin-handle'), url: url('multie/entry-types') },
+] %}
+
+{% set fullPageForm = true %}
+
+{% set fieldGroups = fieldGroups ?? null %}
+
+{% set showHeader = true %}
+{% set fullPageForm = true %}
+{% set selectedSubnavItem = 'fields' %}
+{% set sites = craft.app.getSites().getAllSites() %}
+{% set title = "Multie Site Manager" %}
+
+{% block actionButton %}
+    
+{% endblock %}
+
+{% block sidebar %}
+  
+{% endblock %}
+
+
+{% block content %}
+    <div id="entry-types-vue-admin-table"></div>
+{% endblock %}
+
+{% js %}
+
+    var columns = {{ columns | json_encode | raw }};
+
+    var actions = {{ actions | json_encode | raw }};
+
+    new Craft.VueAdminTable({
+
+    actions: actions,
+    columns: columns,
+    container: "#entry-types-vue-admin-table",
+    emptyMessage: Craft.t("plugin-handle", "No entry types exist yet."),
+    reorderAction: "",
+    tableData: {{ tableData | json_encode | raw }},
+    allowMultipleSelections: true,
+    checkboxes: true
+    });
+
+{% endjs %}
+
+
+

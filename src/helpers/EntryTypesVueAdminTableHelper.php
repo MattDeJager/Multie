@@ -2,6 +2,7 @@
 
 namespace boost\multie\helpers;
 
+use boost\multie\constants\TranslationMethods;
 use boost\multie\controllers\EntryTypesController;
 use craft\models\EntryType;
 
@@ -49,6 +50,8 @@ class EntryTypesVueAdminTableHelper extends VueAdminTableHelper
 
         $tableData = [];
 
+        $translationMethodMap = TranslationMethods::getTranslationMethods();
+
         // TODO: Add lightswitches here
         /** @var EntryType $entryType */
         foreach ($entries as $entryType) {
@@ -57,8 +60,8 @@ class EntryTypesVueAdminTableHelper extends VueAdminTableHelper
             $tableData[] = [
                 'id' => $entryType->id,
                 'title' => "<a class='cell-bold' href='/admin/settings/entry-types/" . $entryType->id . "'>" . $entryType->name . "</a>",
-                'title_translation_method' => $entryType->titleTranslationMethod,
-                'slug_translation_method' => $entryType->slugTranslationMethod,
+                'title_translation_method' => $translationMethodMap[$entryType->titleTranslationMethod],
+                'slug_translation_method' => $translationMethodMap[$entryType->slugTranslationMethod],
                 'show_title_field' => "<span class='status " . $showTitleField . "'></span>",
                 'show_slug_field' => "<span class='status " . $showSlugField . "'></span>",
             ];

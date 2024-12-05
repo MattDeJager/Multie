@@ -2,7 +2,7 @@
 
 namespace boost\multie\helpers;
 
-use boost\multie\controllers\FieldsController;
+use boost\multie\controllers\EntryTypesController;
 use craft\models\EntryType;
 
 class EntryTypesVueAdminTableHelper extends VueAdminTableHelper
@@ -10,20 +10,37 @@ class EntryTypesVueAdminTableHelper extends VueAdminTableHelper
     public static function actions(): array
     {
         $titleTranslationMethodActions  = VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Title Translation Method'),
-            VueAdminTableHelper::getTranslationMethodActions(FieldsController::ACTION_UPDATE, 'titleTranslationMethod'),
+            VueAdminTableHelper::getTranslationMethodActions(EntryTypesController::ACTION_UPDATE, 'titleTranslationMethod'),
             'translate'
         );
 
         $slugTranslationMethodActions = VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Slug Translation Method'),
-            VueAdminTableHelper::getTranslationMethodActions(FieldsController::ACTION_UPDATE, 'slugTranslationMethod'),
+            VueAdminTableHelper::getTranslationMethodActions(EntryTypesController::ACTION_UPDATE, 'slugTranslationMethod'),
             'translate'
         );
 
-        // TODO:  Add actions for show_title_field and show_slug_field
+        $showTitleFieldActions = VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Show Title Field'),
+            [
+                self::getActionArray('Show', EntryTypesController::ACTION_UPDATE, 'showTitleField', ['value' => 'true']),
+                self::getActionArray("Don't Show", EntryTypesController::ACTION_UPDATE, 'showTitleField', ['value' => 'false']),
+            ],
+            'translate'
+        );
+
+        $showSlugFieldAction = VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Show Slug Field'),
+            [
+                self::getActionArray('Show', EntryTypesController::ACTION_UPDATE, 'showSlugField', ['value' => 'true']),
+                self::getActionArray("Don't Show", EntryTypesController::ACTION_UPDATE, 'showSlugField', ['value' => 'false']),
+            ],
+            'translate'
+        );
+
 
         return [
             $titleTranslationMethodActions,
-            $slugTranslationMethodActions
+            $slugTranslationMethodActions,
+            $showTitleFieldActions,
+            $showSlugFieldAction
         ];
     }
 
@@ -32,18 +49,18 @@ class EntryTypesVueAdminTableHelper extends VueAdminTableHelper
 
         $tableData = [];
 
-        // TODO:  Make status dynamic
-        $status = 'enabled';
-
+        // TODO: Add lightswitches here
         /** @var EntryType $entryType */
         foreach ($entries as $entryType) {
+            $showTitleField = $entryType->hasTitleField ? 'enabled' : 'disabled';
+            $showSlugField = $entryType->showSlugField ? 'enabled' : 'disabled';
             $tableData[] = [
                 'id' => $entryType->id,
                 'title' => "<a class='cell-bold' href='/admin/settings/entry-types/" . $entryType->id . "'>" . $entryType->name . "</a>",
                 'title_translation_method' => $entryType->titleTranslationMethod,
                 'slug_translation_method' => $entryType->slugTranslationMethod,
-                'show_title_field' => "<span class='status " . $status . "'></span>",
-                'show_slug_field' => "<span class='status " . $status . "'></span>",
+                'show_title_field' => "<span class='status " . $showTitleField . "'></span>",
+                'show_slug_field' => "<span class='status " . $showSlugField . "'></span>",
             ];
         }
 

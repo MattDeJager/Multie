@@ -21,16 +21,16 @@ class EntryTypesVueAdminTableHelper extends VueAdminTableHelper
 
         $showTitleFieldActions = VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Show Title Field'),
             [
-                self::getActionArray('Show', EntryTypesController::ACTION_UPDATE, 'showTitleField', ['value' => 'true']),
-                self::getActionArray("Don't Show", EntryTypesController::ACTION_UPDATE, 'showTitleField', ['value' => 'false']),
+                self::getActionArray('Show', EntryTypesController::ACTION_UPDATE, 'fields', [['handle' => 'hasTitleField','value' => 1]]),
+                self::getActionArray("Don't Show", EntryTypesController::ACTION_UPDATE, 'fields', [['handle' => 'hasTitleField','value' => 0]]),
             ],
             'translate'
         );
 
         $showSlugFieldAction = VueAdminTableHelper::getActionsArray(\Craft::t('app', 'Show Slug Field'),
             [
-                self::getActionArray('Show', EntryTypesController::ACTION_UPDATE, 'showSlugField', ['value' => 'true']),
-                self::getActionArray("Don't Show", EntryTypesController::ACTION_UPDATE, 'showSlugField', ['value' => 'false']),
+                self::getActionArray('Show', EntryTypesController::ACTION_UPDATE, 'fields', [['handle' => 'showSlugField','value' => 1]]),
+                self::getActionArray("Don't Show", EntryTypesController::ACTION_UPDATE, 'fields', [['handle' => 'showSlugField','value' => 0]]),
             ],
             'translate'
         );

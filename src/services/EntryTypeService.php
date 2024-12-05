@@ -7,7 +7,6 @@ use Craft;
 
 class EntryTypeService
 {
-    // TODO: This is exact same function is used inside the FieldsService -> Refactor to extend a common class or Interface
     public function updateEntryTypes($ids, $properties): void
     {
         ElementUpdater::update(

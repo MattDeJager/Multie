@@ -105,6 +105,7 @@ class Plugin extends BasePlugin
         // REGISTER SERVICES
         $this->setComponents([
             'field' => \boost\multie\services\FieldsService::class,
+            'entryType' => \boost\multie\services\EntryTypeService::class,
             'section' => \boost\multie\services\SectionsService::class,
             'site' => \boost\multie\services\SiteService::class,
             'fieldGroup' => \boost\multie\services\FieldGroupService::class,

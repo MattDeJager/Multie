@@ -4,8 +4,11 @@ namespace boost\multie\controllers;
 
 use boost\multie\helpers\EntryTypesVueAdminTableHelper;
 use boost\multie\helpers\SectionSiteSettingsVueAdminTableHelper;
+use boost\multie\services\EntryTypeService;
+use Craft;
 use craft\web\Controller;
 use boost\multie\Plugin;
+use craft\web\Request;
 use nystudio107\seomatic\models\jsonld\DDxElement;
 
 class EntryTypesController extends Controller
@@ -30,17 +33,19 @@ class EntryTypesController extends Controller
     public function actionUpdate(): \yii\web\Response
     {
 
-        dd('update');
 //        TODO: Add permissions
 //        $this->requirePermission(Plugin::PERMISSION_EDIT_FIELDS);
 
-        $entryTypeIds = Craft::$app->request->post("ids");
+        /** @var Request $request */
+        $request = Craft::$app->request;
 
-        dd($entryTypeIds);
-//        $fieldConfig = json_decode(Craft::$app->request->getBodyParam('fields'), true);
-//        $fieldService = Plugin::getInstance()->field;
-//
-//        $fieldService->updateFields($fieldIds, $fieldConfig);
+        $entryTypeIds = $request->post("ids");
+        $entryTypeConfig = json_decode($request->getBodyParam('fields'), true);
+
+        /** @var EntryTypeService $entryTypeService */
+        $entryTypeService = Plugin::getInstance()->entryType;
+
+        $entryTypeService->updateEntryTypes($entryTypeIds, $entryTypeConfig);
 
         // Get the referrer URL
         $referrer = Craft::$app->request->referrer;

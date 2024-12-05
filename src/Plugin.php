@@ -30,6 +30,7 @@ class Plugin extends BasePlugin
     const PERMISSION_MANAGE_SETTINGS = 'accessPlugin-'.self::HANDLE;
     const PERMISSION_EDIT_SECTIONS = self::HANDLE . '-editSections';
     const PERMISSION_EDIT_FIELDS = self::HANDLE . '-editFields';
+    const PERMISSION_EDIT_ENTRY_TYPES = self::HANDLE . '-editFields';
 
 
     /**
@@ -181,6 +182,9 @@ class Plugin extends BasePlugin
                                 ],
                                 self::PERMISSION_EDIT_SECTIONS => [
                                     'label' => \Craft::t('app','Bulk edit sections'),
+                                ],
+                                self::PERMISSION_EDIT_ENTRY_TYPES => [
+                                    'label' => \Craft::t('app','Bulk edit entry types'),
                                 ],
                             ]
                         ],

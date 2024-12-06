@@ -55,13 +55,16 @@ class EntryTypesVueAdminTableHelper extends VueAdminTableHelper
         // TODO: Add lightswitches here
         /** @var EntryType $entryType */
         foreach ($entries as $entryType) {
+            $titleTranslationMethod = array_key_exists($entryType->titleTranslationMethod, $translationMethodMap) ? $translationMethodMap[$entryType->titleTranslationMethod] : '-';
+            $slugTranslationMethod = array_key_exists($entryType->slugTranslationMethod, $translationMethodMap) ? $translationMethodMap[$entryType->slugTranslationMethod] : '-';
+
             $showTitleField = $entryType->hasTitleField ? 'enabled' : 'disabled';
             $showSlugField = $entryType->showSlugField ? 'enabled' : 'disabled';
             $tableData[] = [
                 'id' => $entryType->id,
                 'title' => "<a class='cell-bold' href='/admin/settings/entry-types/" . $entryType->id . "'>" . $entryType->name . "</a>",
-                'title_translation_method' => $translationMethodMap[$entryType->titleTranslationMethod],
-                'slug_translation_method' => $translationMethodMap[$entryType->slugTranslationMethod],
+                'title_translation_method' => $titleTranslationMethod,
+                'slug_translation_method' => $slugTranslationMethod,
                 'show_title_field' => "<span class='status " . $showTitleField . "'></span>",
                 'show_slug_field' => "<span class='status " . $showSlugField . "'></span>",
             ];

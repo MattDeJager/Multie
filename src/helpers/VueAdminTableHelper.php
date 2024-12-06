@@ -2,6 +2,7 @@
 
 namespace boost\multie\helpers;
 
+use boost\multie\constants\TranslationMethods;
 use Craft;
 
 abstract class VueAdminTableHelper implements VueAdminTableHelperInterface
@@ -39,12 +40,13 @@ abstract class VueAdminTableHelper implements VueAdminTableHelperInterface
 
     public static function getTranslationMethodActions(string $action, $handle): array
     {
-        return [
-            VueAdminTableHelper::getActionArray(\Craft::t('app', 'Not translatable'), $action, 'fields', [['handle' => $handle, 'value' => 'none']]),
-            VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each site'), $action, 'fields', [['handle' => $handle, 'value' => 'site']]),
-            VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each site group'), $action, 'fields', [['handle' => $handle, 'value' => 'siteGroup']]),
-            VueAdminTableHelper::getActionArray(\Craft::t('app', 'Translate for each language'), $action, 'fields', [['handle' => $handle, 'value' => 'language']]),
-        ];
+        $actions = [];
+
+        foreach (TranslationMethods::getTranslationMethods() as $value => $label) {
+            $actions[] = self::getActionArray($label, $action, 'fields', [['handle' => $handle, 'value' => $value]]);
+        }
+
+        return $actions;
     }
 
 }

@@ -30,6 +30,7 @@ class Plugin extends BasePlugin
     const PERMISSION_MANAGE_SETTINGS = 'accessPlugin-'.self::HANDLE;
     const PERMISSION_EDIT_SECTIONS = self::HANDLE . '-editSections';
     const PERMISSION_EDIT_FIELDS = self::HANDLE . '-editFields';
+    const PERMISSION_EDIT_ENTRY_TYPES = self::HANDLE . '-editFields';
 
 
     /**
@@ -105,6 +106,7 @@ class Plugin extends BasePlugin
         // REGISTER SERVICES
         $this->setComponents([
             'field' => \boost\multie\services\FieldsService::class,
+            'entryType' => \boost\multie\services\EntryTypeService::class,
             'section' => \boost\multie\services\SectionsService::class,
             'site' => \boost\multie\services\SiteService::class,
             'fieldGroup' => \boost\multie\services\FieldGroupService::class,
@@ -133,6 +135,10 @@ class Plugin extends BasePlugin
                                 'label' => 'Fields',
                                 'url' => self::HANDLE . '/fields',
                             ],
+                            'entryTypes' => [
+                                'label' => 'Entry Types',
+                                'url' => self::HANDLE . '/entry-types',
+                            ],
                         ],
                     ];
 
@@ -153,6 +159,7 @@ class Plugin extends BasePlugin
                     $event->rules[self::HANDLE . '/sections/general/<type:(all|channel|single|structure)>'] = self::HANDLE . '/sections/general-settings-index';
                     $event->rules[self::HANDLE . '/fields'] = self::HANDLE . '/fields/index';
                     $event->rules[self::HANDLE . '/fields/<fieldGroupId:\d*>'] = self::HANDLE . '/fields/index';
+                    $event->rules[self::HANDLE . '/entry-types'] = self::HANDLE . '/entry-types/index';
                     $event->rules[self::HANDLE . '/translations'] = self::HANDLE . '/translations/index';
                 }
             );
@@ -175,6 +182,9 @@ class Plugin extends BasePlugin
                                 ],
                                 self::PERMISSION_EDIT_SECTIONS => [
                                     'label' => \Craft::t('app','Bulk edit sections'),
+                                ],
+                                self::PERMISSION_EDIT_ENTRY_TYPES => [
+                                    'label' => \Craft::t('app','Bulk edit entry types'),
                                 ],
                             ]
                         ],

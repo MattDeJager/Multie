@@ -24,16 +24,14 @@
     {% endif %}
 
     {% set crumbs = [
-        { label: 'Multie'|t('plugin-handle'), url: url('multie') },
-        { label: 'Sections'|t('plugin-handle'), url: url('multie') },
         {
             id: 'site-crumb',
             icon: 'world',
             label: selectedSite.name|t('site'),
             menu: {
-            items: siteMenuItems(selectableSites, selectedSite),
-            label: 'Select site'|t('app')
-        }
+                items: siteMenuItems(selectableSites, selectedSite),
+                label: 'Select site'|t('app')
+            }
         }
     ] %}
 {% endif %}
@@ -41,23 +39,4 @@
 
 {% endblock %}
 
-
-{% js %}
-
-{#// When changing the site select, navigate to the sections index for that site.#}
-{#var $siteMenuBtn = $("#header .sitemenubtn:first");#}
-
-{#if ($siteMenuBtn.length) {#}
-{#    var siteMenu = $siteMenuBtn.menubtn().data("menubtn").menu;#}
-
-{#    siteMenu.on("optionselect", function(ev) {#}
-{#        siteMenu.$options.removeClass("sel");#}
-{#        var $option = $(ev.selectedOption).addClass("sel");#}
-{#        $siteMenuBtn.html($option.html());#}
-{#        Craft.cp.setSiteId($option.data("site-id"));#}
-
-{#        location.reload();#}
-{#    });#}
-{#}#}
-{% endjs %}
 
